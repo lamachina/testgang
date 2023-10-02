@@ -16,6 +16,13 @@ export function RealmInfo({ data, profileLink}: Props) {
     return data?.$full_realm_name;
   }
 
+  const rawDataUrl = () => {
+    if (!data) {
+      return '';
+    }
+    return `https://ep.atomicals.xyz/proxy/blockchain.atomicals.get?params=["${data.atomical_id}"]`;
+  }
+
   const realmLocation = () => {
     if (!data) {
       return '';
@@ -126,6 +133,12 @@ export function RealmInfo({ data, profileLink}: Props) {
             </FieldItem>
           </>
           }
+           <FieldLabel>
+              Raw data
+            </FieldLabel>
+          <FieldItem>
+          <A href={rawDataUrl()} target="_blank">View raw data</A>
+          </FieldItem>
         </>
       }
     </Wrapper>

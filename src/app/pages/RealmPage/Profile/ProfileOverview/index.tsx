@@ -21,10 +21,12 @@ import { ButtonPrimaryNew } from 'app/components/ButtonPrimaryNew';
 import { InputSearchRealms } from './InputSearchRealms';
 import { NotFoundInfo } from './NotFoundInfo';
 import { A } from 'app/components/A';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Title } from '../../components/Title';
 import { FooterBasic } from 'app/components/FooterBasic';
 import { RealmInfo } from 'app/components/RealmInfo';
+import { FirstClaimBox } from 'app/components/FirstClaimBox';
+import { selectPrimaryAddress } from 'app/slice/selectors';
 
 export function ProfileOverview() {
   const { actions } = useProfileOverviewSlice();
@@ -36,6 +38,9 @@ export function ProfileOverview() {
   const error = useSelector(selectError);
   const { name }: any = useParams();
   const dispatch = useDispatch();
+ 
+  const navigate = useNavigate();
+  const primaryAddress = useSelector(selectPrimaryAddress);
 
   const onChangeUsername = (evt: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(actions.changeUsername(evt.currentTarget.value));
@@ -56,50 +61,42 @@ export function ProfileOverview() {
     dispatch(actions.changeUsername(name));
     dispatch(actions.loadRepos());
   });
-  
+
   const fullName = () => {
     if (realmInfo) {
       return realmInfo?.$full_realm_name;
     }
     return '';
-  }
+  };
 
   const address = () => {
     if (realmInfo) {
-
-      return realmInfo?.location_info[0].address ? realmInfo?.location_info[0].address : undefined;
+      return realmInfo?.location_info[0].address
+        ? realmInfo?.location_info[0].address
+        : undefined;
     }
     return '';
-  }
+  };
 
   return (
     <Wrapper>
-
       {realmInfo ? (
         <>
-
           <Nameheadline className="text-center">
             <Title as="h1">+{fullName()}</Title>
           </Nameheadline>
 
-          <RealmInfo
-            key={realmInfo}
-            data={realmInfo}
-          />
+          <RealmInfo key={realmInfo} data={realmInfo} />
           {}
-         
-         
-
         </>
       ) : error ? (
+        <div className="mt-5">
         <NotFoundInfo>
-          <ErrorText>Realm +{name} not found
-          </ErrorText><br />
-          <ClaimInfo>Claim the Realm name <em>+{username}</em> before someone else. <A href="https://docs.atomicals.xyz/reference-and-tools/javascript-library-cli" target="_blank">Claim Realm with the CLI</A></ClaimInfo>
+          <FirstClaimBox name={name} primaryAddress={primaryAddress} />
         </NotFoundInfo>
+        </div>
       ) : null}
       <FooterBasic />
-
     </Wrapper>
   );
 }
@@ -121,15 +118,14 @@ export const repoErrorText = (error: ProfileErrorType) => {
 };
 
 const Nameheadline = styled.div`
-text-wrap: nowrap;
-whitespace: nowrap;
-text-align: center;
-justify-content: center;
-display: flex;
+  text-wrap: nowrap;
+  whitespace: nowrap;
+  text-align: center;
+  justify-content: center;
+  display: flex;
 `;
 
 const Wrapper = styled.div`
-
   ${TextButton} {
     margin: 16px 0;
     font-size: 0.875rem;
@@ -139,7 +135,6 @@ const Wrapper = styled.div`
 const Lead = styled.p`
   color: ${p => p.theme.text};
 `;
-
 
 const ClaimInfo = styled.span`
   color: ${p => p.theme.text};
@@ -160,4 +155,3 @@ const FormGroup = styled.form`
   }
   background-color: #101010 !important;
 `;
-

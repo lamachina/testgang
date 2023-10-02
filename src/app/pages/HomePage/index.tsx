@@ -6,20 +6,20 @@ import { Features } from './Features';
 import { PageWrapper } from 'app/components/PageWrapper';
 import { BigLogo } from 'app/components/BigLogo';
 import { FooterBasic } from 'app/components/FooterBasic';
+import { NavBarNew } from 'app/components/NavBarNew';
 
 export function HomePage() {
   return (
     <>
       <Helmet>
         <title>+Realm Names</title>
-        <meta
-          name="description"
-          content="Realm name system powered by"
-        />
+        <meta name="description" content="Realm name system powered by" />
       </Helmet>
- 
+      <NavBarNew/>
+      <div>
       <Features />
-      <FooterBasic/> 
+      <FooterBasic />
+      </div>
     </>
   );
 }

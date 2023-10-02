@@ -1,8 +1,10 @@
 import { configureStore, StoreEnhancer } from '@reduxjs/toolkit';
 import { createInjectorsEnhancer } from 'redux-injectors';
 import createSagaMiddleware from 'redux-saga';
-
+import { createBrowserHistory } from 'history';
 import { createReducer } from './reducers';
+
+export const history = createBrowserHistory();
 
 export function configureAppStore() {
   const reduxSagaMonitorOptions = {};

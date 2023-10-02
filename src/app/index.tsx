@@ -14,25 +14,45 @@ import { HomePage } from './pages/HomePage/Loadable';
 import { NotFoundPage } from './pages/NotFoundPage/Loadable';
 import { useTranslation } from 'react-i18next';
 import { RealmPage } from './pages/RealmPage';
+import { useAppGlobalStateSlice } from './slice';
+import { useCookies } from 'react-cookie';
+import { history } from 'store/configureStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPrimaryAddress, selectPrimaryPublicKey } from './slice/selectors';
+import { ConnectPage } from './pages/ConnectPage';
+import { getSubdomainString } from './helpers/getSubdomain';
 
 export function App() {
-  const { i18n } = useTranslation();
-  return (
-    <BrowserRouter>
-      <Helmet
-        titleTemplate="%s - Realm Name System"
-        defaultTitle="Realm Name System"
-        htmlAttributes={{ lang: i18n.language }}
-      >
-        <meta name="description" content="Realm Name System" />
-      </Helmet>
+    const { i18n } = useTranslation();
+    const { actions } = useAppGlobalStateSlice();
+    const [cookies, removeCookie] = useCookies(['bpKey']);
+    const dispatch = useDispatch();
+    const useEffectOnMount = (effect: React.EffectCallback) => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        React.useEffect(effect, []);
+    };
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/:name" element={<RealmPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-      <GlobalStyle />
-    </BrowserRouter>
-  );
+    useEffectOnMount(() => {
+        // Initialize the cart from the cookie
+        dispatch(actions.initSessionFromCookie());
+    });
+    console.log('Subdomains', getSubdomainString());
+    return (
+        <BrowserRouter>
+            <Helmet
+                titleTemplate="%s - Realm Name System"
+                defaultTitle="Realm Name System"
+                htmlAttributes={{ lang: i18n.language }}
+            >
+                <meta name="description" content="Realm Name System" />
+            </Helmet>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/_wallet" element={<ConnectPage />} />
+                <Route path="/:name" element={<RealmPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+            <GlobalStyle />
+        </BrowserRouter>
+    );
 }

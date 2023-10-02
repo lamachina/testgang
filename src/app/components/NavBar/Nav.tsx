@@ -2,11 +2,66 @@ import * as React from 'react';
 import styled from 'styled-components/macro';
 import { ReactComponent as DocumentationIcon } from './assets/documentation-icon.svg';
 import { ReactComponent as GithubIcon } from './assets/github-icon.svg';
+import { ButtonConnected } from '../ButtonConnected';
+import { BigLogo } from '../BigLogo';
+import { useAppGlobalStateSlice } from 'app/slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPrimaryAddress, selectPrimaryPublicKey } from 'app/slice/selectors';
+import { push } from 'connected-react-router';
 
 export function Nav() {
+  const globalSlice = useAppGlobalStateSlice();
+  const primaryAddress = useSelector(selectPrimaryAddress);
+  const primaryPublicKey = useSelector(selectPrimaryPublicKey);
+  const dispatch = useDispatch();
+
+  function onLogout() {
+      dispatch(globalSlice.actions.clearSession());
+    //  dispatch(push('/connect'));
+  }
+
+  function gotoConnect() {
+      dispatch(push('/connect'));
+ 
+  }
+ 
+  function isLoggedIn() {
+      return primaryAddress;
+  }
+
+  const onOpenHome = (evt: any) => {
+      dispatch(push('/'));
+      evt.preventDefault();
+      return false;
+  };
+
   return (
     <Wrapper>
-      <Item
+      <header className="py-3 texdt-bg-dark">
+        <div className="container">
+          <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+       
+            <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li>
+                <a href="/" className="nav-link px-2 mx-3 text-secondary">
+              
+                </a>
+              </li>
+            </ul>
+
+            <div className="text-end">
+              <ButtonConnected primaryAddress={primaryAddress} /> 
+            </div>
+          </div>
+        </div>
+      </header>
+    </Wrapper>
+  );
+}
+
+/*
+
+   <Item
         href="https://docs.atomicals.xyz"
         target="_blank"
         title="Documentation Page"
@@ -24,13 +79,12 @@ export function Nav() {
         <GithubIcon />
         Github
       </Item>
-    </Wrapper>
-  );
-}
+      <ButtonConnected>Connect Wallet</ButtonConnected>*/
+const Wrapper = styled.nav``;
 
-const Wrapper = styled.nav`
-  display: flex;
-  margin-right: -1rem;
+const BoldLogo = styled.span`
+  font-weight: bold;
+  font-size: 16px;
 `;
 
 const Item = styled.a`

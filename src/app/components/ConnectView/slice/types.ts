@@ -27,7 +27,6 @@ export enum LoadErrorType {
     RESPONSE_ERROR = 1,
     NOT_FOUND = 2,
 }
-
 /* 
   If you want to use 'ContainerState' keyword everywhere in your feature folder, 
   instead of the 'HomePageState' keyword.

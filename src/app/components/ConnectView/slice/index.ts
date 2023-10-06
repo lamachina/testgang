@@ -124,7 +124,6 @@ const slice = createSlice({
         triggerChangePhrase(state, action: PayloadAction<{ phrase: string }>) {},
 
         changePathBase(state, action: PayloadAction<{ pathBase: string }>) {
-            console.log('asd', action)
           state.pathBase = action.payload.pathBase;
         },
 

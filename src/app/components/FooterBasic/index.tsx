@@ -55,7 +55,7 @@ const A = styled.a`
 
 const Divider = styled.div`
     color: ${p => p.theme.text};
-    border-top: solid 1px #484848;
+ 
     margin-top: 15px;
     margin-bottom: 15px;
 `;

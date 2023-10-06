@@ -39,15 +39,12 @@ export function* triggerChangePhraseRequest(action) {
     const pathBase = yield select(selectPathBase);
     console.log('pathBase', pathBase);
     const isValid = bip39.validateMnemonic(action.payload.phrase);
-    console.log('isValid in connectivew', isValid, action);
     if (isValid) {
-        //const generated: any = generateKeysFromPhrase(action.payload, `m/86'/0'/0`);
         const primaryPath = `${pathBase}/0/0`;
         const fundingPath = `${pathBase}/1/0`;
         const mnemonic = action.payload.phrase;
         const primary: CreateKeyPairInterface = yield generateKeysFromPhrase(mnemonic, primaryPath);
         const funding: CreateKeyPairInterface = yield generateKeysFromPhrase(mnemonic, fundingPath);
-
         yield put(actions.setChangePhrase({ phrase: mnemonic, primary, funding }));
     }
 }

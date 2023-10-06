@@ -18,14 +18,14 @@ import {
   selectShowLoginConfirm,
   selectConfirmPassword,
 } from './slice/selectors';
-import { useAppGlobalStateSlice } from 'app/slice';
+import { AES_SALT, useAppGlobalStateSlice } from 'app/slice';
 import { updateSessionCookie } from 'utils/session-validator';
 
 interface Props {
   onCompleted?: any;
 }
 
-const AES_SALT = 'af573b66349951e3ee72f2bbfb6203ec0';
+
 export function ConnectView({ onCompleted }: Props) {
   const { actions } = useSlice();
   const globalSlice = useAppGlobalStateSlice();

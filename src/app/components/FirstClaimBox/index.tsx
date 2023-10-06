@@ -4,6 +4,8 @@ import { A } from 'app/components/A';
 import { FormLabel } from 'app/components/FormLabel';
 import { ButtonPrimaryNew } from '../ButtonPrimaryNew';
 import { useNavigate } from 'react-router-dom';
+import { useNftMinterSlice } from '../NftMinter/slice';
+import { useDispatch } from 'react-redux';
 
 interface Props {
   primaryAddress: any;
@@ -11,10 +13,18 @@ interface Props {
 }
 
 export function FirstClaimBox({ primaryAddress, name }: Props) {
+  const { actions } = useNftMinterSlice();
+  const dispatch = useDispatch();
+ 
   const navigate = useNavigate();
-
   function gotoConnect() {
     navigate('/_wallet');
+  }
+
+  function openMinter(e) {
+    dispatch(actions.initMintResult());
+    navigate('/_mint/' + name);
+    e.preventDefault();
   }
 
   function isLoggedIn() {
@@ -30,9 +40,11 @@ export function FirstClaimBox({ primaryAddress, name }: Props) {
           Realm <Highlight>+{name}</Highlight> is still available to claim!
         </LeadClaim>
         <LeadClaim className="text-center"></LeadClaim>
-        <Lead>
-          Connect your wallet and be the first to claim the Realm before someone else takes it.
-        </Lead>
+        {!isLoggedIn() && (
+          <Lead>
+            Connect your wallet and be the first to claim the Realm before someone else takes it.
+          </Lead>
+        )}
 
         {!isLoggedIn() && (
           <ButtonPrimaryNew block={false} onClick={gotoConnect}>
@@ -40,8 +52,8 @@ export function FirstClaimBox({ primaryAddress, name }: Props) {
           </ButtonPrimaryNew>
         )}
         {isLoggedIn() && (
-          <ButtonPrimaryNew block={false} onClick={gotoConnect}>
-            Coming very soon
+          <ButtonPrimaryNew block={false} onClick={openMinter}>
+            Mint Realm
           </ButtonPrimaryNew>
         )}
         <div className="text-center my-3">
@@ -63,67 +75,13 @@ const LeadClaim = styled.p`
   font-weight: bold;
 `;
 
-const ProfileField = styled.div`
-  display: flex;
-
-  align-items: center;
-`;
-const ProfileFieldInner = styled.div``;
-
-const Divider = styled.div`
-  color: ${p => p.theme.text};
-  border-top: solid 1px #484848;
-  margin-top: 15px;
-  margin-bottom: 15px;
-`;
-
 const Lead = styled.p`
   color: ${p => p.theme.text};
-`;
-
-const FieldItem = styled.p`
-  color: ${p => p.theme.text};
-  margin-bottom: 10px;
-`;
-
-const FieldLabel = styled.div`
-  color: ${p => p.theme.textSecondary};
-  margin-bottom: 5px;
 `;
 
 const Wrapper = styled.div`
   font-weight: 500;
   color: ${p => p.theme.text};
-`;
-
-const Name = styled.div`
-  flex: 1;
-  padding: 0.625rem 0;
-`;
-
-const Info = styled.div`
-  display: flex;
-`;
-
-const StarCount = styled.div`
-  display: flex;
-  align-items: center;
-  min-width: 6rem;
-  .icon {
-    margin-right: 0.125rem;
-  }
-`;
-
-const FormGroup = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-  border-color: rgb(60, 16, 105) !important;
-  ${FormLabel} {
-    margin-bottom: 0.25rem;
-    margin-left: 0.125rem;
-  }
-  background-color: #101010 !important;
 `;
 
 const FormGroupClaim = styled.form`
@@ -136,5 +94,5 @@ const FormGroupClaim = styled.form`
     margin-bottom: 0.25rem;
     margin-left: 0.125rem;
   }
-  background-color: #101010 !important;
+  background-color: #000 !important;
 `;

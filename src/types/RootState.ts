@@ -5,6 +5,8 @@ import { ProfileOverviewState } from 'app/pages/RealmPage/Profile/ProfileOvervie
 import { RealmsViewState } from 'app/pages/RealmsPage/RealmsView/slice/types';
 import { AppGlobalState } from 'app/slice/types';
 import { ThemeState } from 'styles/theme/slice/types';
+import { NftMinterState } from 'app/components/NftMinter/slice/types';
+import { MintViewState } from 'app/pages/MintPage/MintView/slice/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 export interface RootState {
@@ -14,6 +16,8 @@ export interface RootState {
   connectViewState?: ConnectViewState;
   realmsViewState?: RealmsViewState;
   claimViewState?: ClaimViewState;
+  nftMinterState?: NftMinterState;
+  mintViewState?: MintViewState;
   appGlobalState?: AppGlobalState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

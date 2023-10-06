@@ -6,6 +6,7 @@ import { A } from 'app/components/A';
 import { SearchRealmForm } from '../../../components/SearchRealmForm';
 import { useTranslation } from 'react-i18next';
 import { BigLogo } from 'app/components/BigLogo';
+import { Highlight } from 'app/components/Highlight';
 
 export function HomeView() {
   const { t } = useTranslation();
@@ -31,15 +32,12 @@ export function HomeView() {
       </div>
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <SearchRealmForm redirectOnly={true} redirectPath={'/_claim'} />
+          <SearchRealmForm redirectOnly={true} redirectPath={'/_search'} />
         </div>
       </div>
     </div>
   );
 }
-const Highlight = styled.span`
-  color: #ff914d;
-`;
 
 const LogoWrapper = styled.div`
   display: flex;

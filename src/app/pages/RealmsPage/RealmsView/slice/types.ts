@@ -1,9 +1,20 @@
-export interface RealmSummary {}
+export interface RealmSummary {
+  
+}
+
+export interface AtomicalsSummary {
+
+}
+
 
 export interface RealmsViewState {
   loading: boolean;
   error?: RealmsViewErrorType | null;
+  atomicals: AtomicalsSummary;
   realms: RealmSummary[];
+  requestRealms: RealmSummary[];
+  subrealms: RealmSummary[];
+  requestSubrealms: RealmSummary[];
 }
 
 export const enum RealmsViewErrorType {

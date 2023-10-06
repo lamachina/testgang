@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 import { put, select, takeLatest } from 'redux-saga/effects';
 
 import { connectViewActions as actions, generateKeysFromPhrase } from '.';
@@ -5,7 +6,8 @@ var Buffer = require('buffer/').Buffer; // note: the trailing slash is important
 window['Buffer'] = window['Buffer'] || Buffer;
 window['bitcoin'] = window['bitcoin'] || {};
 // eslint-disable-next-line import/first
-import * as ecc from '@bitcoin-js/tiny-secp256k1-asmjs';
+//import * as ecc from '@bitcoin-js/tiny-secp256k1-asmjs';
+import * as ecc from '@bitcoinerlab/secp256k1';
 // eslint-disable-next-line import/first
 window['bitcoin'].initEccLib(ecc);
 // eslint-disable-next-line import/first

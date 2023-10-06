@@ -2,8 +2,8 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { Repo } from 'types/Repo';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { githubRepoFormSaga } from './saga';
-import { SearchRealmFormState, RepoErrorType } from './types';
+import { searchRealmFormSaga } from './saga';
+import { SearchRealmFormState, SearchRealmErrorType } from './types';
 
 export const initialState: SearchRealmFormState = {
   name: '',
@@ -21,7 +21,14 @@ const slice = createSlice({
       state.realmInfo = null;
       state.name = action.payload;
     },
-    loadRepos(state) {
+    clearRealmInfo(state) {
+      state.realmInfo = null;
+      state.name = '';
+    },
+    clearError(state) {
+      state.error = null;
+    },
+    getRealmInfo(state) {
       state.loading = true;
       state.error = null;
       state.repositories = [];
@@ -31,7 +38,7 @@ const slice = createSlice({
       state.repositories = repos;
       state.loading = false;
     },
-    repoError(state, action: PayloadAction<RepoErrorType>) {
+    repoError(state, action: PayloadAction<SearchRealmErrorType>) {
       state.error = action.payload;
       state.realmInfo = null;
       state.loading = false;
@@ -46,8 +53,8 @@ const slice = createSlice({
 
 export const { actions: githubRepoFormActions, reducer } = slice;
 
-export const useGithubRepoFormSlice = () => {
+export const useSearchRealmFormSlice = () => {
   useInjectReducer({ key: slice.name, reducer: slice.reducer });
-  useInjectSaga({ key: slice.name, saga: githubRepoFormSaga });
+  useInjectSaga({ key: slice.name, saga: searchRealmFormSaga });
   return { actions: slice.actions };
 };

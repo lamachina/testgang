@@ -4,17 +4,16 @@ import { Repo } from 'types/Repo';
 export interface SearchRealmFormState {
   name: string;
   loading: boolean;
-  error?: RepoErrorType | null;
+  error?: SearchRealmErrorType | null;
   repositories: Repo[];
   realmInfo: any;
 }
 
-export const enum RepoErrorType {
+export const enum SearchRealmErrorType {
   RESPONSE_ERROR = 1,
   REALM_NOT_FOUND = 2,
   REALMNAME_EMPTY = 3,
-  USER_HAS_NO_REPO = 4,
-  GITHUB_RATE_LIMIT = 5,
+  REALM_NAME_INVALID = 4,
 }
 
 /* 

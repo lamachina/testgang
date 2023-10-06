@@ -1,8 +1,8 @@
 import { put, select, takeLatest, delay } from 'redux-saga/effects';
 import { profileOverviewActions as actions } from '.';
 import { ProfileErrorType } from './types';
-import { ElectrumApiInterface } from 'services/electrum-api.interface';
-import { ElectrumApiFactory } from 'services/electrum-api-factory';
+import { ElectrumApiInterface } from 'utils/builder/services/electrum-api.interface';
+import { ElectrumApiFactory } from 'utils/builder/services/electrum-api-factory';
 import { mockSearchRealmNameAndStatus } from './mocks';
 import { selectName } from './selectors';
 
@@ -21,7 +21,7 @@ export function* getRepos() {
   let client: ElectrumApiInterface;
   let apiMock: ElectrumApiInterface | undefined = undefined
   if (process.env.REACT_APP_ELECTRUMX_API_MOCK === 'true') {
-    if (name == 'notfound') {
+    if (name === 'notfound') {
       apiMock = mockSearchRealmNameAndStatus(true)
     } else {
       apiMock = mockSearchRealmNameAndStatus()

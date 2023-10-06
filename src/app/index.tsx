@@ -23,6 +23,7 @@ import { ConnectPage } from './pages/ConnectPage';
 import { getSubdomainString } from './helpers/getSubdomain';
 import { RealmsPage } from './pages/RealmsPage';
 import { ClaimPage } from './pages/ClaimPage';
+import { MintPage } from './pages/MintPage';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -38,7 +39,6 @@ export function App() {
     // Initialize the cart from the cookie
     dispatch(actions.initSessionFromCookie());
   });
-  console.log('Subdomains', getSubdomainString());
   return (
     <BrowserRouter>
       <Helmet
@@ -52,7 +52,9 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/_wallet" element={<ConnectPage />} />
         <Route path="/_realms" element={<RealmsPage />} />
+        <Route path="/_search" element={<ClaimPage />} />
         <Route path="/_claim" element={<ClaimPage />} />
+        <Route path="/_mint/:name" element={<MintPage />} />
         <Route path="/:name" element={<RealmPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

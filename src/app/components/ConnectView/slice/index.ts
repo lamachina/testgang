@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { useInjectReducer } from 'utils/redux-injectors';
@@ -7,7 +8,8 @@ var Buffer = require('buffer/').Buffer; // note: the trailing slash is important
 window['Buffer'] = window['Buffer'] || Buffer;
 window['bitcoin'] = window['bitcoin'] || {};
 // eslint-disable-next-line import/first
-import * as ecc from '@bitcoin-js/tiny-secp256k1-asmjs';
+//import * as ecc from '@bitcoin-js/tiny-secp256k1-asmjs';
+import * as ecc from '@bitcoinerlab/secp256k1';
 // eslint-disable-next-line import/first
 window['bitcoin'].initEccLib(ecc);
 var bitcoin = window['bitcoin'];

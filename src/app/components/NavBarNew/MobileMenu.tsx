@@ -31,7 +31,7 @@ export function MobileMenu({ activeLink, primaryAddress }: Props) {
   };
 
   const onOpenSearch = (evt: any) => {
-    navigate('/_claim');
+    navigate('/_search');
   };
 
   const onOpenWallet = (evt: any) => {
@@ -44,8 +44,10 @@ export function MobileMenu({ activeLink, primaryAddress }: Props) {
 
   useEffectOnMount(() => {
     var myOffcanvas = document.getElementById('offcanvas');
-    var bsOffcanvas = new window['bootstrap'].Offcanvas(myOffcanvas);
-    setBsCanvas(bsOffcanvas);
+    if (myOffcanvas && window['bootstrap'] && window['bootstrap']['Offcanvas']) {
+      var bsOffcanvas = new window['bootstrap'].Offcanvas(myOffcanvas);
+      setBsCanvas(bsOffcanvas);
+    }
   });
 
   const gotoApp = (evt: any) => {
@@ -149,7 +151,7 @@ export function MobileMenu({ activeLink, primaryAddress }: Props) {
               data-bs-dismiss="offcanvas"
               aria-label="Close"
             >
-               <i className="fa fa-home"></i> My Realms
+              <i className="fa fa-home"></i> My Realms
             </ItemButton>
           )}
 

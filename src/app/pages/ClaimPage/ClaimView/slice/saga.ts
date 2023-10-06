@@ -1,11 +1,12 @@
 import { put, select, takeLatest, delay } from 'redux-saga/effects';
 import { profileOverviewActions as actions } from '.';
 import { ClaimViewErrorType } from './types';
-import { ElectrumApiInterface } from 'services/electrum-api.interface';
-import { ElectrumApiFactory } from 'services/electrum-api-factory';
+import { ElectrumApiInterface } from 'utils/builder/services/electrum-api.interface';
+import { ElectrumApiFactory } from 'utils/builder/services/electrum-api-factory';
 import { mockSearchRealmNameAndStatus } from './mocks';
 import { selectPrimaryAddress } from 'app/slice/selectors';
-import { detectAddressTypeToScripthash } from 'app/helpers/address-helpers';
+import { detectAddressTypeToScripthash } from 'utils/builder/helpers/address-helpers';
+ 
 
 const remoteElectrumxUrl = process.env.REACT_APP_ELECTRUMX_PROXY_BASE_URL;
 /**
@@ -16,15 +17,12 @@ export function* getRealms() {
   // Select username from store
   const primaryAddress: string = yield select(selectPrimaryAddress);
   const { scripthash } = detectAddressTypeToScripthash(primaryAddress);
-  //  let res = await this.electrumApi.atomicalsByScripthash(scripthash, true);
-
   let client;
   const factory = new ElectrumApiFactory(remoteElectrumxUrl + '');
   client = factory.create();
   yield client.open();
   try {
     const atomicalInfo = yield client.atomicalsByScripthash(scripthash);
-    console.log('atomicalInfo', atomicalInfo);
     yield put(actions.realmInfoLoaded(atomicalInfo));
   } catch (err: any) {
     if (err.response?.status === 404) {

@@ -1,31 +1,30 @@
 import { put, select, takeLatest, delay } from 'redux-saga/effects';
 import { profileOverviewActions as actions } from '.';
 import { RealmsViewErrorType } from './types';
-import { ElectrumApiInterface } from 'services/electrum-api.interface';
-import { ElectrumApiFactory } from 'services/electrum-api-factory';
-import { mockSearchRealmNameAndStatus } from './mocks';
+import {
+  ElectrumApiFactory,
+  ElectrumApiMockFactory,
+} from 'utils/builder/services/electrum-api-factory';
 import { selectPrimaryAddress } from 'app/slice/selectors';
-import { detectAddressTypeToScripthash } from 'app/helpers/address-helpers';
+import { ElectrumApiInterface } from 'utils/builder/services/electrum-api.interface';
+import { getMockApi } from './mock-api';
+import { detectAddressTypeToScripthash } from 'utils/builder/helpers/address-helpers';
 
 const remoteElectrumxUrl = process.env.REACT_APP_ELECTRUMX_PROXY_BASE_URL;
-/**
- * Github repos request/response handler
- */
+
 export function* getRealms() {
   yield delay(200);
   // Select username from store
   const primaryAddress: string = yield select(selectPrimaryAddress);
+  console.log('primaryAddress', primaryAddress);
   const { scripthash } = detectAddressTypeToScripthash(primaryAddress);
-  //  let res = await this.electrumApi.atomicalsByScripthash(scripthash, true);
-
-  let client;
-  const factory = new ElectrumApiFactory(remoteElectrumxUrl + '');
+  let client: ElectrumApiInterface;
+  const mockFactory = new ElectrumApiMockFactory(getMockApi());
+  const factory = new ElectrumApiFactory(remoteElectrumxUrl + '', mockFactory.getMock());
   client = factory.create();
-  yield client.open();
   try {
-    const atomicalInfo = yield client.atomicalsByScripthash(scripthash);
-    console.log('atomicalInfo', atomicalInfo);
-    yield put(actions.realmInfoLoaded(atomicalInfo));
+    const atomicalsInfo = yield client.atomicalsByScripthash(scripthash);
+    yield put(actions.setAtomicals(atomicalsInfo.atomicals));
   } catch (err: any) {
     if (err.response?.status === 404) {
       yield put(actions.repoError(RealmsViewErrorType.GENERAL_ERROR));

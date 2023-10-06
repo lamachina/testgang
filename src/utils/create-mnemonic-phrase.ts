@@ -1,9 +1,11 @@
+/* eslint-disable import/first */
 /* eslint-disable prettier/prettier */
 var Buffer = require('buffer').Buffer;
 window['Buffer'] = window['Buffer'] || Buffer;
 window['bitcoin'] = window['bitcoin'] || {};
 // eslint-disable-next-line import/first
-import * as ecc from '@bitcoin-js/tiny-secp256k1-asmjs';
+//import * as ecc from '@bitcoin-js/tiny-secp256k1-asmjs';
+import * as ecc from '@bitcoinerlab/secp256k1';
 // eslint-disable-next-line import/first
 window['bitcoin'].initEccLib(ecc);
 const crypto = require('crypto-browserify');

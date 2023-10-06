@@ -41,7 +41,7 @@ export function NavBarNew({ mode }: Props) {
   };
 
   const onOpenSearch = (evt: any) => {
-    navigate('/_claim');
+    navigate('/_search');
     evt.preventDefault();
   };
 
@@ -55,7 +55,7 @@ export function NavBarNew({ mode }: Props) {
     useEffect(effect, []);
   };
 
-  useEffectOnMount(() => {});
+  useEffectOnMount(() => { });
   return (
     <>
       <Wrapper className="d-none d-md-block">
@@ -71,7 +71,7 @@ export function NavBarNew({ mode }: Props) {
             </HomeLink>
 
             <NavBarRightItems>
-            
+
               <Item
                 className="nav-link px-2"
                 href="#"

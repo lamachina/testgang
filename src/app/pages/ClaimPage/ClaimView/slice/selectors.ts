@@ -5,13 +5,13 @@ import { initialState } from '.';
 
 // First select the relevant part from the state
 const selectDomain = (state: RootState) => state.realmsViewState || initialState;
- 
+
 export const selectLoading = createSelector(
   [selectDomain],
-  profileViewState => profileViewState.loading,
+  profileViewState => profileViewState.loading
 );
 
 export const selectError = createSelector(
   [selectDomain],
-  profileViewState => profileViewState.error,
+  profileViewState => profileViewState.error
 );

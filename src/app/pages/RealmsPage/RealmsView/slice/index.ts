@@ -16,7 +16,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     changeUsername(state, action: PayloadAction<string>) {},
-    loadRepos(state) {
+    loadRealms(state, action: PayloadAction<string>) {
       state.loading = true;
       state.error = null;
       state.realms = [];

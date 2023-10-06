@@ -100,8 +100,6 @@ export function ProfileOverview() {
     </Wrapper>
   );
 }
-
-//    <QRCodeSVG className="hide" value={address()} bgColor="fff" fgColor="#fff" size={200} />
 export const repoErrorText = (error: ProfileErrorType) => {
   switch (error) {
     case ProfileErrorType.REALM_NOT_FOUND:
@@ -131,27 +129,4 @@ const Wrapper = styled.div`
     font-size: 0.875rem;
   }
 `;
-
-const Lead = styled.p`
-  color: ${p => p.theme.text};
-`;
-
-const ClaimInfo = styled.span`
-  color: ${p => p.theme.text};
-`;
-
-const ErrorText = styled.span`
-  color: ${p => p.theme.text};
-`;
-
-const FormGroup = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-  border-color: rgb(60, 16, 105) !important;
-  ${FormLabel} {
-    margin-bottom: 0.25rem;
-    margin-left: 0.125rem;
-  }
-  background-color: #101010 !important;
-`;
+ 

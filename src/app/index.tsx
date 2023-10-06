@@ -50,7 +50,8 @@ export function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/_wallet" element={<ConnectPage />} />
-        <Route path="/_owned" element={<RealmsPage />} />
+        <Route path="/_realms" element={<RealmsPage />} />
+        <Route path="/_search" element={<RealmsPage />} />
         <Route path="/:name" element={<RealmPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

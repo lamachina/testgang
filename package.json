@@ -71,6 +71,7 @@
     "jest-resolve": "^27.4.2",
     "jest-styled-components": "7.1.1",
     "jest-watch-typeahead": "^1.0.0",
+    "js-sha256": "0.10.1",
     "lint-staged": "13.0.3",
     "mini-css-extract-plugin": "^2.4.5",
     "node-plop": "0.26.3",

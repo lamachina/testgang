@@ -4,14 +4,14 @@ import { Profile } from './Profile';
 import { NavBarNew } from 'app/components/NavBarNew';
 
 export function RealmPage() {
-    return (
-        <>
-            <Helmet>
-                <title>+Realm Names</title>
-                <meta name="description" content="Realm name system powered by" />
-            </Helmet>
-            <NavBarNew />
-            <Profile />
-        </>
-    );
+  return (
+    <>
+      <Helmet>
+        <title>+Realm Names</title>
+        <meta name="description" content="Realm name system powered by" />
+      </Helmet>
+      <NavBarNew />
+      <Profile />
+    </>
+  );
 }

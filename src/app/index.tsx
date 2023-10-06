@@ -22,6 +22,7 @@ import { selectPrimaryAddress, selectPrimaryPublicKey } from './slice/selectors'
 import { ConnectPage } from './pages/ConnectPage';
 import { getSubdomainString } from './helpers/getSubdomain';
 import { RealmsPage } from './pages/RealmsPage';
+import { ClaimPage } from './pages/ClaimPage';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -51,7 +52,7 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/_wallet" element={<ConnectPage />} />
         <Route path="/_realms" element={<RealmsPage />} />
-        <Route path="/_search" element={<RealmsPage />} />
+        <Route path="/_claim" element={<ClaimPage />} />
         <Route path="/:name" element={<RealmPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

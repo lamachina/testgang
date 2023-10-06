@@ -18,7 +18,7 @@ describe('GithubRepoForm selectors', () => {
   it('should select username', () => {
     const username = 'test';
     state = {
-      githubRepoForm: { ...initialState, username: username },
+      searchRealmForm: { ...initialState, username: username },
     };
     expect(selectors.selectUsername(state)).toEqual(username);
   });
@@ -26,7 +26,7 @@ describe('GithubRepoForm selectors', () => {
   it('should select username', () => {
     const repo = { name: 'test' } as Repo;
     state = {
-      githubRepoForm: { ...initialState, repositories: [repo] },
+      searchRealmForm: { ...initialState, repositories: [repo] },
     };
     expect(selectors.selectRepos(state)).toEqual([repo]);
   });
@@ -34,7 +34,7 @@ describe('GithubRepoForm selectors', () => {
   it('should select error', () => {
     const error = RepoErrorType.REALM_NOT_FOUND;
     state = {
-      githubRepoForm: { ...initialState, error: error },
+      searchRealmForm: { ...initialState, error: error },
     };
     expect(selectors.selectError(state)).toEqual(error);
   });
@@ -42,7 +42,7 @@ describe('GithubRepoForm selectors', () => {
   it('should select loading', () => {
     const loading = true;
     state = {
-      githubRepoForm: { ...initialState, loading: loading },
+      searchRealmForm: { ...initialState, loading: loading },
     };
     expect(selectors.selectLoading(state)).toEqual(loading);
   });

@@ -6,7 +6,7 @@ import { profileOverviewSaga } from './saga';
 import { ProfileOverviewState, ProfileErrorType } from './types';
 
 export const initialState: ProfileOverviewState = {
-  username: 'react-boilerplate',
+  name: '',
   repositories: [],
   loading: false,
   error: null,
@@ -17,9 +17,9 @@ const slice = createSlice({
   name: 'profileOverview',
   initialState,
   reducers: {
-    changeUsername(state, action: PayloadAction<string>) {
+    changeName(state, action: PayloadAction<string>) {
       state.realmInfo = null;
-      state.username = action.payload;
+      state.name = action.payload;
     },
     loadRepos(state) {
       state.loading = true;

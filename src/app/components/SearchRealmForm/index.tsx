@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FormLabel } from 'app/components/FormLabel';
 import { Input } from './components/Input';
 import { RepoItem } from './RepoItem';
-import { SubTitle } from '../../components/SubTitle';
+import { SubTitle } from '../../pages/HomePage/components/SubTitle';
 import { TextButton } from './components/TextButton';
 import {
-  selectUsername,
+  selectName,
   selectRepos,
   selectLoading,
   selectError,
@@ -25,20 +25,25 @@ import { ConnectView } from 'app/components/ConnectView';
 import { push } from 'connected-react-router';
 import { useAppGlobalStateSlice } from 'app/slice';
 import { selectPrimaryAddress } from 'app/slice/selectors';
-import { useNavigate } from 'react-router-dom';
 import { FirstClaimBox } from 'app/components/FirstClaimBox';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
+interface Props {
+  redirectOnly?: boolean;
+  redirectPath?: string;
+}
 
-export function GithubRepoForm() {
+export function SearchRealmForm({ redirectOnly, redirectPath }: Props) {
   const { actions } = useGithubRepoFormSlice();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const username = useSelector(selectUsername);
+  const name = useSelector(selectName);
   const repos = useSelector(selectRepos);
   const isLoading = useSelector(selectLoading);
   const realmInfo = useSelector(selectRealmInfo);
   const error = useSelector(selectError);
   const dispatch = useDispatch();
   const globalSlice = useAppGlobalStateSlice();
-
+ 
   const primaryAddress = useSelector(selectPrimaryAddress);
 
   function gotoConnect() {
@@ -49,13 +54,22 @@ export function GithubRepoForm() {
     return primaryAddress;
   }
 
-  const onChangeUsername = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(actions.changeUsername(evt.currentTarget.value));
-    //dispatch(actions.loadRepos());
+  const onChangeName = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(actions.changeName(evt.currentTarget.value));
   };
 
   const onSearchName = () => {
-    dispatch(actions.loadRepos());
+    if (redirectOnly) {
+      navigate({
+        pathname: redirectPath as any,
+        search: `?${createSearchParams({
+          q: name
+        })}`,
+      });
+
+    } else {
+      dispatch(actions.loadRepos());
+    }
   };
 
   const useEffectOnMount = (effect: React.EffectCallback) => {
@@ -64,9 +78,15 @@ export function GithubRepoForm() {
   };
 
   useEffectOnMount(() => {
-    // When initial state username is not null, submit the form to load repos
-    if (username && username.trim().length > 0) {
+    // When initial state name is not null, submit the form to load repos
+    if (name && name.trim().length > 0) {
       // dispatch(actions.loadRepos());
+    }
+    const q = searchParams.get('q');
+    if (q) {
+      console.log('q', q, name)
+      dispatch(actions.changeName(q));
+      dispatch(actions.loadRepos());
     }
   });
 
@@ -87,8 +107,8 @@ export function GithubRepoForm() {
         <div className="form-floating">
           <InputSearchRealms
             placeholder="Type any Realm name"
-            value={username}
-            onChange={onChangeUsername}
+            value={name}
+            onChange={onChangeName}
           />
         </div>
         <ButtonPrimaryNew block={false} onClick={onSearchName}>
@@ -101,7 +121,7 @@ export function GithubRepoForm() {
       ) : error ? (
         error == RepoErrorType.REALM_NOT_FOUND ? (
           <NotFoundInfo>
-            <FirstClaimBox name={username} primaryAddress={primaryAddress} />
+            <FirstClaimBox name={name} primaryAddress={primaryAddress} />
           </NotFoundInfo>
         ) : (
           <ErrorTextSpan>{repoErrorText(error)} Please try again later.</ErrorTextSpan>

@@ -34,7 +34,7 @@ describe('<GithubRepoForm />', () => {
     store = configureAppStore();
     component = renderGithubRepoForm(store);
     store.dispatch(actions.reposLoaded([]));
-    expect(store.getState().githubRepoForm).toEqual(initialState);
+    expect(store.getState().searchRealmForm).toEqual(initialState);
   });
   afterEach(() => {
     component.unmount();
@@ -44,21 +44,21 @@ describe('<GithubRepoForm />', () => {
     component.unmount();
     component = renderGithubRepoForm(store);
     expect(initialState.username.length).toBeGreaterThan(0);
-    expect(store.getState().githubRepoForm.loading).toBe(true);
+    expect(store.getState().searchRealmForm.loading).toBe(true);
   });
 
   it("shouldn't fetch repos on mount if username is empty", () => {
-    store.dispatch(actions.changeUsername(''));
+    store.dispatch(actions.changeName(''));
     store.dispatch(actions.reposLoaded([]));
     component.unmount();
     component = renderGithubRepoForm(store);
-    expect(store.getState().githubRepoForm.loading).toBe(false);
+    expect(store.getState().searchRealmForm.loading).toBe(false);
   });
 
   it('should dispatch action on username change', () => {
     const input = component.container.querySelector('input');
     fireEvent.change(input!, { target: { value: 'test' } });
-    expect(store.getState().githubRepoForm.loading).toBe(true);
+    expect(store.getState().searchRealmForm.loading).toBe(true);
   });
 
   it('should change username field value on action', () => {

@@ -30,6 +30,10 @@ export function MobileMenu({ activeLink, primaryAddress }: Props) {
     navigate('/');
   };
 
+  const onOpenSearch = (evt: any) => {
+    navigate('/_claim');
+  };
+
   const onOpenWallet = (evt: any) => {
     navigate('/_wallet');
   };
@@ -145,13 +149,13 @@ export function MobileMenu({ activeLink, primaryAddress }: Props) {
               data-bs-dismiss="offcanvas"
               aria-label="Close"
             >
-               <i className="fa fa-home"></i> Realms
+               <i className="fa fa-home"></i> My Realms
             </ItemButton>
           )}
 
           <Item
             className={getOffCanvasClassNames('features')}
-            onClick={onOpenHome}
+            onClick={onOpenSearch}
             href="#features"
             title="Features"
             data-bs-dismiss="offcanvas"

@@ -8,7 +8,7 @@ import { SubTitle } from '../../components/SubTitle';
 import { TextButton } from './components/TextButton';
 import { QRCodeSVG } from 'qrcode.react';
 import {
-  selectUsername,
+  selectName,
   selectRepos,
   selectLoading,
   selectError,
@@ -30,26 +30,12 @@ import { selectPrimaryAddress } from 'app/slice/selectors';
 
 export function ProfileOverview() {
   const { actions } = useProfileOverviewSlice();
-
-  const username = useSelector(selectUsername);
-  const repos = useSelector(selectRepos);
-  const isLoading = useSelector(selectLoading);
   const realmInfo = useSelector(selectRealmInfo);
   const error = useSelector(selectError);
   const { name }: any = useParams();
   const dispatch = useDispatch();
- 
-  const navigate = useNavigate();
+
   const primaryAddress = useSelector(selectPrimaryAddress);
-
-  const onChangeUsername = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(actions.changeUsername(evt.currentTarget.value));
-    //dispatch(actions.loadRepos());
-  };
-
-  const onSearchName = () => {
-    dispatch(actions.loadRepos());
-  };
 
   const useEffectOnMount = (effect: React.EffectCallback) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,7 +44,7 @@ export function ProfileOverview() {
 
   useEffectOnMount(() => {
     // When initial state username is not null, submit the form to load repos
-    dispatch(actions.changeUsername(name));
+    dispatch(actions.changeName(name));
     dispatch(actions.loadRepos());
   });
 

@@ -1,5 +1,6 @@
 import { ConnectViewState } from 'app/components/ConnectView/slice/types';
-import { GithubRepoFormState } from 'app/pages/HomePage/Features/GithubRepoForm/slice/types';
+import { ClaimViewState } from 'app/pages/ClaimPage/ClaimView/slice/types';
+import { SearchRealmFormState } from 'app/components/SearchRealmForm/slice/types';
 import { ProfileOverviewState } from 'app/pages/RealmPage/Profile/ProfileOverview/slice/types';
 import { RealmsViewState } from 'app/pages/RealmsPage/RealmsView/slice/types';
 import { AppGlobalState } from 'app/slice/types';
@@ -8,10 +9,11 @@ import { ThemeState } from 'styles/theme/slice/types';
 
 export interface RootState {
   theme?: ThemeState;
-  githubRepoForm?: GithubRepoFormState;
+  searchRealmForm?: SearchRealmFormState;
   profileOverview?: ProfileOverviewState;
   connectViewState?: ConnectViewState;
   realmsViewState?: RealmsViewState;
+  claimViewState?: ClaimViewState;
   appGlobalState?: AppGlobalState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

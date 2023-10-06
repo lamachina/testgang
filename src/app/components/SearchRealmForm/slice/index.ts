@@ -3,10 +3,10 @@ import { Repo } from 'types/Repo';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { githubRepoFormSaga } from './saga';
-import { GithubRepoFormState, RepoErrorType } from './types';
+import { SearchRealmFormState, RepoErrorType } from './types';
 
-export const initialState: GithubRepoFormState = {
-  username: 'react-boilerplate',
+export const initialState: SearchRealmFormState = {
+  name: '',
   repositories: [],
   loading: false,
   error: null,
@@ -14,12 +14,12 @@ export const initialState: GithubRepoFormState = {
 };
 
 const slice = createSlice({
-  name: 'githubRepoForm',
+  name: 'searchRealmForm',
   initialState,
   reducers: {
-    changeUsername(state, action: PayloadAction<string>) {
+    changeName(state, action: PayloadAction<string>) {
       state.realmInfo = null;
-      state.username = action.payload;
+      state.name = action.payload;
     },
     loadRepos(state) {
       state.loading = true;

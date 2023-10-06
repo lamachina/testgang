@@ -1,8 +1,8 @@
 import { Repo } from 'types/Repo';
 
 /* --- STATE --- */
-export interface GithubRepoFormState {
-  username: string;
+export interface SearchRealmFormState {
+  name: string;
   loading: boolean;
   error?: RepoErrorType | null;
   repositories: Repo[];
@@ -21,4 +21,4 @@ export const enum RepoErrorType {
   If you want to use 'ContainerState' keyword everywhere in your feature folder, 
   instead of the 'HomePageState' keyword.
 */
-export type ContainerState = GithubRepoFormState;
+export type ContainerState = SearchRealmFormState;

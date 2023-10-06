@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest, delay } from 'redux-saga/effects';
 import { request } from 'utils/request';
-import { selectUsername } from './selectors';
+import { selectName } from './selectors';
 import { githubRepoFormActions as actions } from '.';
 import { Repo } from 'types/Repo';
 import { RepoErrorType } from './types';
@@ -14,16 +14,16 @@ const remoteElectrumxUrl = process.env.REACT_APP_ELECTRUMX_PROXY_BASE_URL;
  */
 export function* getRepos() {
   yield delay(200);
-  // Select username from store
-  const username: string = yield select(selectUsername);
-  if (username.length === 0) {
+  // Select name from store
+  const name: string = yield select(selectName);
+  if (name.length === 0) {
     yield put(actions.repoError(RepoErrorType.REALMNAME_EMPTY));
     return;
   }
   let client: ElectrumApiInterface;
   let apiMock: ElectrumApiInterface | undefined = undefined
   if (process.env.REACT_APP_ELECTRUMX_API_MOCK === 'true') {
-    if (username == 'notfound') {
+    if (name == 'notfound') {
       apiMock = mockSearchRealmNameAndStatus(true)
     } else {
       apiMock = mockSearchRealmNameAndStatus()
@@ -35,7 +35,7 @@ export function* getRepos() {
   yield client.open();
   try {
     // Call our request helper (see 'utils/request')
-    const res = yield client.atomicalsGetRealmInfo(username);
+    const res = yield client.atomicalsGetRealmInfo(name);
     console.log('result', res);
     if (res && res.result && res.result.atomical_id) {
       const atomicalInfo = yield client.atomicalsGetLocation(res.result.atomical_id);

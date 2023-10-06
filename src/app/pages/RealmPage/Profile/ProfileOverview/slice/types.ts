@@ -2,7 +2,7 @@ import { Repo } from 'types/Repo';
 
 /* --- STATE --- */
 export interface ProfileOverviewState {
-  username: string;
+  name: string;
   loading: boolean;
   error?: ProfileErrorType | null;
   repositories: Repo[];

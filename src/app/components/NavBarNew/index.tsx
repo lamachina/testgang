@@ -40,6 +40,11 @@ export function NavBarNew({ mode }: Props) {
     evt.preventDefault();
   };
 
+  const onOpenSearch = (evt: any) => {
+    navigate('/_claim');
+    evt.preventDefault();
+  };
+
   const onOpenRealms = (evt: any) => {
     navigate('/_realms');
     evt.preventDefault();
@@ -74,7 +79,7 @@ export function NavBarNew({ mode }: Props) {
                 rel="noopener noreferrer"
                 onClick={onOpenRealms}
               >
-                <i className="fa fa-home"></i> Realms
+                <i className="fa fa-home"></i> My Realms
               </Item>
 
               <Item
@@ -82,7 +87,7 @@ export function NavBarNew({ mode }: Props) {
                 href="#"
                 title="FAQ"
                 rel="noopener noreferrer"
-                onClick={onOpenHome}
+                onClick={onOpenSearch}
               >
                 <i className="fa fa-search"></i> Search Realms
               </Item>

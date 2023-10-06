@@ -13,10 +13,10 @@ describe('GithubRepoForm slice', () => {
     expect(slice.reducer(undefined, { type: '' })).toEqual(state);
   });
 
-  it('should handle changeUsername', () => {
+  it('should handle changeName', () => {
     const text = 'test';
     expect(
-      slice.reducer(state, slice.githubRepoFormActions.changeUsername(text)),
+      slice.reducer(state, slice.githubRepoFormActions.changeName(text)),
     ).toEqual<ContainerState>({
       ...slice.initialState,
       username: text,

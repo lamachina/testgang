@@ -2,31 +2,30 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { Repo } from 'types/Repo';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { realmsViewSaga } from './saga';
-import { RealmsViewState, RealmsViewErrorType, RealmSummary } from './types';
+import { claimViewSaga } from './saga';
+import { ClaimViewState, ClaimViewErrorType } from './types';
 
-export const initialState: RealmsViewState = {
-  realms: [],
+export const initialState: ClaimViewState = {
   loading: false,
   error: null,
 };
 
 const slice = createSlice({
-  name: 'realmsViewState',
+  name: 'claimViewState',
   initialState,
   reducers: {
     changeName(state, action: PayloadAction<string>) {},
     loadRealms(state, action: PayloadAction<string>) {
       state.loading = true;
       state.error = null;
-      state.realms = [];
+      //state.realms = [];
     },
-    reposLoaded(state, action: PayloadAction<RealmSummary[]>) {
-      const repos = action.payload;
+    reposLoaded(state) {
+     /* const repos = action.payload;
       state.realms = repos;
-      state.loading = false;
+      state.loading = false;*/
     },
-    repoError(state, action: PayloadAction<RealmsViewErrorType>) {
+    repoError(state, action: PayloadAction<ClaimViewErrorType>) {
       // state.error = action.payload;
       // state.realmInfo = null;
       // state.loading = false;
@@ -43,6 +42,6 @@ export const { actions: profileOverviewActions, reducer } = slice;
 
 export const useRealmsViewSlice = () => {
   useInjectReducer({ key: slice.name, reducer: slice.reducer });
-  useInjectSaga({ key: slice.name, saga: realmsViewSaga });
+  useInjectSaga({ key: slice.name, saga: claimViewSaga });
   return { actions: slice.actions };
 };

@@ -6,28 +6,24 @@ import { initialState } from '.';
 // First select the relevant part from the state
 const selectDomain = (state: RootState) => state.profileOverview || initialState;
 
-export const selectUsername = createSelector(
-  [selectDomain],
-  profileViewState => profileViewState.username,
-);
+export const selectName = createSelector([selectDomain], profileViewState => profileViewState.name);
 
 export const selectLoading = createSelector(
   [selectDomain],
-  profileViewState => profileViewState.loading,
+  profileViewState => profileViewState.loading
 );
 
 export const selectError = createSelector(
   [selectDomain],
-  profileViewState => profileViewState.error,
+  profileViewState => profileViewState.error
 );
 
 export const selectRepos = createSelector(
   [selectDomain],
-  profileViewState => profileViewState.repositories,
+  profileViewState => profileViewState.repositories
 );
-
 
 export const selectRealmInfo = createSelector(
   [selectDomain],
-  profileViewState => profileViewState.realmInfo,
+  profileViewState => profileViewState.realmInfo
 );

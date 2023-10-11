@@ -42,7 +42,7 @@ export function ProfileOverview() {
   };
  
   return (
-    <Wrapper>
+    <Wrapper className="pt-5">
         {loading && (
         <AllCentered className="pt-5">
           <LoadingIndicator />

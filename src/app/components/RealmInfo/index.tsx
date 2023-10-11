@@ -19,7 +19,7 @@ export function RealmInfo({ data, profileLink }: Props) {
     if (!data) {
       return '';
     }
-    return `https://ep.atomicals.xyz/proxy/blockchain.atomicals.get?params=["${data.atomical_id}"]`;
+    return `https://ep.atomicals.xyz/proxy/blockchain.atomicals.get?params=["${data.atomical_id}"]&pretty`;
   };
 
   const realmLocation = () => {
@@ -106,7 +106,7 @@ export function RealmInfo({ data, profileLink }: Props) {
           <Divider />
           <FieldLabel>Atomical ID:</FieldLabel>
           <FieldItem>
-            <A href={'https://mempool.space/tx/' + realmLocation()} target="_blank">
+            <A href={'https://mempool.space/tx/' + realmId()} target="_blank">
               {realmId()}
             </A>
           </FieldItem>

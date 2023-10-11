@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'styled-components/macro';
 interface Props {
   placeholder: string;
   value: string;
@@ -12,7 +13,7 @@ export function InputSearchRealms({ placeholder, value, onChange }: Props) {
         <span className="input-group-text" id="realm-addon">
           +
         </span>
-        <input
+        <Input
           type="text"
           className="form-control"
           placeholder={placeholder}
@@ -25,4 +26,7 @@ export function InputSearchRealms({ placeholder, value, onChange }: Props) {
     </>
   );
 }
- 
+
+const Input = styled.input`
+  text-transform: lowercase;
+`;

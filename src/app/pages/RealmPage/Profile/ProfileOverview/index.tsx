@@ -14,6 +14,7 @@ import { FirstClaimBox } from 'app/components/FirstClaimBox';
 import { selectPrimaryAddress } from 'app/slice/selectors';
 import { AllCentered } from 'app/components/AllCentered';
 import { LoadingIndicator } from 'app/components/LoadingIndicator';
+import * as punycode from 'punycode';
 
 export function ProfileOverview() {
   const { actions } = useProfileOverviewSlice();
@@ -36,7 +37,9 @@ export function ProfileOverview() {
 
   const fullName = () => {
     if (realmInfo) {
-      return realmInfo?.$full_realm_name;
+
+      // Decode with punycode if we can
+      return punycode.toUnicode(realmInfo?.$full_realm_name);
     }
     return '';
   };

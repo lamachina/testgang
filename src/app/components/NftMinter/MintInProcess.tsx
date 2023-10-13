@@ -20,6 +20,8 @@ export function MintInProcess({}: Props) {
 }
 
 const Wrapper = styled.div`
+display: flex;
+justify-content: center
 `;
 
 const CirclePulse = styled.div`
@@ -44,7 +46,6 @@ const CirclePulse = styled.div`
   }
 `;
 
-
 const Icon = styled.div`
   z-index: 9999;
   display: flex;
@@ -52,7 +53,6 @@ const Icon = styled.div`
   align-items: center;
   .fa {
     color: yellow;
-    
   }
   animation: pulse-animation 2s infinite;
   @keyframes pulse-animation {
@@ -120,8 +120,6 @@ const Span2 = styled.span`
   }
 `;
 
-
-
 const Span3 = styled.span`
   position: absolute;
   top: 0;
@@ -147,8 +145,6 @@ const Span3 = styled.span`
     }
   }
 `;
-
-
 
 const Span4 = styled.span`
   position: absolute;
@@ -176,8 +172,6 @@ const Span4 = styled.span`
   }
 `;
 
-
-
 const Span5 = styled.span`
   position: absolute;
   top: 0;
@@ -203,4 +197,3 @@ const Span5 = styled.span`
     }
   }
 `;
-

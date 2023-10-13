@@ -20,6 +20,7 @@ export interface NftMinterState {
   fundingDepositUtxo?: UTXO;
   requiredFundingSatoshis: number;
   realmMintResult?: MintStatusResult;
+  realmMintProgressNonces: number;
   commitBroadcastLog: Array<{
     item: any;
   }>;

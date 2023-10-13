@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectRequiredFundingSatoshis, selectFundingDepositUtxo, selectMintStarted, selectRealmMintResult } from './slice/selectors';
+import { selectRequiredFundingSatoshis, selectFundingDepositUtxo, selectMintStarted, selectRealmMintResult, selectRealmMintProgressNonces } from './slice/selectors';
 import { useNftMinterSlice } from './slice';
 import {
   selectDecryptedFundingKey,
@@ -18,7 +19,9 @@ import { A } from '../A';
 import { DecryptWalletModal } from '../DecryptWalletModal';
 import { MintResultSuccess } from './MintResultSuccess';
 import { MintResultError } from './MintResultError';
-
+import { put } from 'redux-saga/effects';
+import eventEmitter from './slice/eventEmitter'
+import { MintStatus } from './MintStatus';
 const CHECK_FUNDING_UTXO_TIME = 7000;
 
 interface Props {
@@ -35,6 +38,7 @@ export function NftMinter({ name, primaryAddress }: Props) {
 
   const dispatch = useDispatch();
   const fundingAddress = useSelector(selectFundingAddress);
+  const realmMintProgressNonces = useSelector(selectRealmMintProgressNonces);
   const requiredFundingSatoshis: number = useSelector(selectRequiredFundingSatoshis);
   const mintStarted: boolean = useSelector(selectMintStarted);
   const fundingDepositUtxo: UTXO | any = useSelector(selectFundingDepositUtxo);
@@ -62,6 +66,25 @@ export function NftMinter({ name, primaryAddress }: Props) {
     }
 
   }, [fundingDepositUtxo, intervalFundingDeposit])
+
+  useEffect(() => {
+    eventEmitter.on(
+      "MINT_OPERATION",
+      (progress) => {
+        // latest percent available here, and will fire every time its updated
+        // do with it what you need, i.e. update local state, store state, etc
+        console.log('progress', progress);
+        if (progress.nonces) {
+          dispatch(actions.setMintProgressNonces(progress.nonces))
+        }
+      }
+    );
+
+    // stop listening on unmount
+    return function cleanup() {
+      eventEmitter.off("MINT_OPERATION")
+    }
+  }, [])
 
   useEffect(() => {
     if (fundingAddress && requiredFundingSatoshis) {
@@ -98,7 +121,7 @@ export function NftMinter({ name, primaryAddress }: Props) {
       return '';
     }
     return 'https://mempool.space/address/' + address;
-  } 
+  }
 
   const onStartMint = async () => {
     dispatch(actions.initMintResult())
@@ -109,7 +132,7 @@ export function NftMinter({ name, primaryAddress }: Props) {
       fundingWIF: decryptedFundingKey as any
     }));
   }
-  
+
   const isMintSuccess = () => {
     if (realmMintResult && realmMintResult.success) {
       return true;
@@ -141,10 +164,24 @@ export function NftMinter({ name, primaryAddress }: Props) {
         onCloseModal={() => setDecryptWalletModalOpen(false)}
         onWalletDecrypted={onWalletDecrypted}
       />
-      
-      {mintStarted && !isMintSuccess() && <MintInProcess />}
-      {isMintSuccess() && <MintResultSuccess  name={name} mintResult={realmMintResult}/>}
-      {isMintError() && <MintResultError mintResult={realmMintResult}/>}
+      <div className="container">
+        {mintStarted && !isMintSuccess() && <div className="row">
+            <div className="col">
+              <MintInProcess />
+            </div>
+          </div>
+        }
+
+        {mintStarted && !isMintSuccess() && <div className="row">
+          <div className="col">
+            <MintStatus progressNonces={realmMintProgressNonces} />
+          </div>
+        </div>}
+      </div>
+
+      {isMintSuccess() && <MintResultSuccess name={name} mintResult={realmMintResult} />}
+      {isMintError() && <MintResultError mintResult={realmMintResult} />}
+
 
       {!mintStarted && <div >
         <WrapperBorder className="row p-4 p-md-5">
@@ -166,12 +203,19 @@ export function NftMinter({ name, primaryAddress }: Props) {
             </DetectedFundingUtxo>
             <InitiateMint expectedSatoshis={requiredFundingSatoshis} fundingDepositUtxo={fundingDepositUtxo} onStartMint={onStartMint} onDecryptWallet={onDecryptWallet} decryptedFundingKey={decryptedFundingKey} />
           </>}
-        </WrapperBorder> 
+        </WrapperBorder>
       </div>}
-      
+
     </Wrapper>
   );
 }
+
+const MintStatusSection = styled.div`
+  border-top: solid 1px #181818;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+`
 
 const DetectedFundingUtxo = styled.div`
   display: flex;

@@ -39,3 +39,8 @@ export const selectRealmMintResult = createSelector(
   [selectDomain],
   nftMinterState => nftMinterState.realmMintResult
 );
+
+export const selectRealmMintProgressNonces = createSelector(
+  [selectDomain],
+  nftMinterState => nftMinterState.realmMintProgressNonces
+);

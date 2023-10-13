@@ -719,16 +719,16 @@ export class AtomicalOperationBuilder {
             rawtx,
           });
 
-       //   console.log('aborting sample');
-          /*return {
+         /*console.log('aborting sample');
+          return {
             commitTxid: prelimTx.getId(),
             revealTxid: prelimTx.getId(),
             atomicalId: prelimTx.getId() + 'i0',
             noncesGenerated,
             startUnixtime,
             unixtime,
-          };*/
-
+          }; 
+*/
           if (!(await this.broadcastWithRetries(rawtx))) {
             console.log('Error sending', prelimTx.getId(), rawtx);
 

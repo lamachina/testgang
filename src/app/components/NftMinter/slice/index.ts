@@ -20,6 +20,7 @@ export const initialState: NftMinterState = {
     unixtime: undefined,
     success: false,
   },
+  realmMintProgressNonces: 0,
   commitBroadcastLog: [],
   revealBroadcastLog: [],
   mintStarted: false,
@@ -32,6 +33,7 @@ const slice = createSlice({
   name: 'nftMinterState',
   initialState,
   reducers: {
+ 
     setMintName(state, action: PayloadAction<string>) {
       state.name = action.payload;
     },
@@ -56,11 +58,10 @@ const slice = createSlice({
       });
     },
 
-    setMintUpdate(state, action: PayloadAction<any>) {
-      state.realmMintResult = Object.assign({}, state.realmMintResult, {
-        ...action.payload,
-      });
+    setMintProgressNonces(state, action: PayloadAction<number>) {
+      state.realmMintProgressNonces = action.payload;
     },
+
 
     getEstimateFee(state) {},
     getRequiredSatoshisAmount(state) {},
@@ -70,7 +71,7 @@ const slice = createSlice({
         realmName: string;
         initialAddress: string;
         satoshisRequired: number;
-        fundingWIF: string;
+        fundingWIF: string; 
       }>
     ) {
       state.mintStarted = true;

@@ -15,8 +15,12 @@ import { CommandInterface } from 'utils/builder/commands/command.interface';
 import { MintInteractiveRealmCommand } from 'utils/builder/commands/mint-interactive-realm-command';
 import { selectEstimateFee, selectName } from './selectors';
 import { selectDecryptedFundingKey, selectPrimaryAddress } from 'app/slice/selectors';
-import { AtomicalOperationBuilder, AtomicalsOperationResult } from 'utils/builder/atomical-operation-builder';
+import {
+  AtomicalOperationBuilder,
+  AtomicalsOperationResult,
+} from 'utils/builder/atomical-operation-builder';
 import { CommandResultInterface } from 'utils/builder/commands/command-result.interface';
+import eventEmitter from './eventEmitter';
 
 const remoteElectrumxUrl = process.env.REACT_APP_ELECTRUMX_PROXY_BASE_URL;
 export function* getEstimateFeeRequest() {
@@ -102,14 +106,18 @@ export function* startMintRequest(action) {
   if (isNaN(estimatedSatsByte)) {
     estimatedSatsByte = 30; // Something went wrong, just default to 30 bytes sat estimate
   }
+
+  function callbackProgress(progress) {
+    console.log('callbackProgress', progress);
+    eventEmitter.emit('MINT_OPERATION', progress);
+  }
+
   const options: BaseRequestOptions = {
     satsbyte: estimatedSatsByte + 1,
     satsoutput: 1000,
     bitworkc: '7777',
     sleepEvery: 10,
-    callbackProgress: async (progress) => {
-      console.log('callbackProgress', progress);
-    }
+    callbackProgress: p => callbackProgress(p),
   };
   const fundingWIFCallback = () => {
     return decryptedFundingKey; // mock sample to simulate fee

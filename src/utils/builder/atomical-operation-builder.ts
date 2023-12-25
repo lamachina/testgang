@@ -108,7 +108,7 @@ export interface IInputUtxoPartial {
   };
 }
 
-const DEFAULT_SATS_BYTE = 10;
+const DEFAULT_SATS_BYTE = 200;
 const SEND_RETRY_SLEEP_SECONDS = 10;
 const SEND_RETRY_ATTEMPTS = 10;
 const DUST_AMOUNT = 546;

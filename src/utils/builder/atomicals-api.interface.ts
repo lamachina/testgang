@@ -52,7 +52,7 @@ export const checkBaseRequestOptions = (options: any): BaseRequestOptions => {
   if (!options) {
     options = BASE_REQUEST_OPTS_DEFAULTS;
   } else if (!options.satsbyte) {
-    options.satsbyte = 10;
+    options.satsbyte = 200;
   }
   if (!options.satsoutput) {
     options.satsoutput = 546;

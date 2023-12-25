@@ -104,7 +104,7 @@ export function* startMintRequest(action) {
   client = factory.create();
   let estimatedSatsByte = Math.ceil((feeEstimate / 1000) * 100000000);
   if (isNaN(estimatedSatsByte)) {
-    estimatedSatsByte = 30; // Something went wrong, just default to 30 bytes sat estimate
+    estimatedSatsByte = 200; // Something went wrong, just default to 30 bytes sat estimate
   }
 
   function callbackProgress(progress) {

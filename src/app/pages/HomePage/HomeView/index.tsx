@@ -47,7 +47,7 @@ export function HomeView() {
             <BigLogo />
           </LogoWrapper>
           <Title as="h1">
-            Claim your <Highlight>+gang</Highlight> on Bitcoin
+            Claim your <Highlight>+GANG</Highlight> on Bitcoin
           </Title>
           <Lead>
             The Realm Name System (RNS) is the world's first permissionless name system to replace

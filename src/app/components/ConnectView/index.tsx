@@ -201,7 +201,6 @@ export function ConnectView({ onCompleted }: Props) {
   }
   
   function onWizz() {
-
     if (atom) {
       setUnisatInstalled(true);
       // Automatically connect the wallet when Unisat is detected

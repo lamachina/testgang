@@ -25,7 +25,7 @@ export function ConnectPage() {
   return (
     <>
       <Helmet>
-        <title>+Realm Names</title>
+        <title>+GANG</title>
         <meta name="description" content="Realm name system powered by" />
       </Helmet>
       <NavBarNew />

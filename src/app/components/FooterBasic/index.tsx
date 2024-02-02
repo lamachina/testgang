@@ -10,12 +10,12 @@ export function FooterBasic() {
          
           <LI className="nav-item">
             <A href="/" className="nav-link px-2">
-              <i className="fa fa-search"></i> Search Realms
+              <i className="fa fa-search"></i> Search Gangs
             </A>
           </LI>
           <LI className="nav-item">
             <A href="https://docs.atomicals.xyz/realm-names" className="nav-link px-2">
-              <i className="fa fa-book"></i> Realms Guide
+              <i className="fa fa-book"></i> Gang Guide
             </A>
           </LI>
           <LI className="nav-item">
@@ -24,8 +24,8 @@ export function FooterBasic() {
             </A>
           </LI>
           <LI className="nav-item">
-            <A href="https://x.com/realmname" className="nav-link pxd-2">
-              @RealmName
+            <A href="https://x.com/AtomicalsGang" className="nav-link pxd-2">
+              @AtomicalsGANG
             </A>
           </LI>
         </UL>

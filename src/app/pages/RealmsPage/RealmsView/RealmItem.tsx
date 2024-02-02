@@ -24,12 +24,12 @@ export function RealmItem({ realmInfo }: Props) {
   return (
     <Wrapper>
       <RealmName>
-        <A
+        <StyledLink
           href={realmLink(realmInfo.full_realm_name as any)}
           onClick={evt => onOpenRealm(evt, realmInfo.full_realm_name as any)}
         >
-          {realmInfo.full_realm_name}
-        </A>
+          +{realmInfo.full_realm_name}
+        </StyledLink>
       </RealmName>
     </Wrapper>
   );
@@ -43,4 +43,9 @@ const RealmName = styled.div`
   color: ${p => p.theme.text};
   border-top: solid 1px #505050;
   padding: 1em;
+`;
+
+const StyledLink = styled(A)`
+  text-transform: uppercase;
+  font-weight: bold;
 `;

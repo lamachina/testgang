@@ -7,6 +7,7 @@ export interface ProfileOverviewState {
   error?: ProfileErrorType | null;
   repositories: Repo[];
   realmInfo: any;
+  delegateInfo: any;
 }
 
 export const enum ProfileErrorType {

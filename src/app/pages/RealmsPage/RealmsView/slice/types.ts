@@ -1,5 +1,9 @@
 export interface RealmSummary {
-  
+  full_realm_name: string;
+  request_subrealm_status: Status;
+}
+export interface Status {
+  status: string;
 }
 
 export interface AtomicalsSummary {

@@ -27,3 +27,8 @@ export const selectRealmInfo = createSelector(
   [selectDomain],
   profileViewState => profileViewState.realmInfo
 );
+
+export const selectDelegateInfo = createSelector(
+  [selectDomain],
+  profileViewState => profileViewState.delegateInfo
+);

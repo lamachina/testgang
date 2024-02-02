@@ -26,6 +26,8 @@ import { ThemeProvider } from 'styles/theme/ThemeProvider';
 
 import reportWebVitals from 'reportWebVitals';
 
+import { gsap } from 'gsap';
+
 // Initialize languages
 import './locales/i18n';
 
@@ -36,6 +38,9 @@ const openSansObserver = new FontFaceObserver('Inter', {});
 // When Inter is loaded, add a font-family using Inter to the body
 openSansObserver.load().then(() => {
   document.body.classList.add('fontLoaded');
+  
+  // Apply global animation to the entire app
+  gsap.fromTo('#root', { opacity: 0 }, { opacity: 1, duration: 1 });
 });
 
 const store = configureAppStore();

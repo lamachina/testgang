@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextButton } from './components/TextButton';
-import { selectError, selectLoading, selectRealmInfo } from './slice/selectors';
+import { selectDelegateInfo, selectError, selectLoading, selectRealmInfo } from './slice/selectors';
 import { ProfileErrorType } from './slice/types';
 import { useProfileOverviewSlice } from './slice';
 import { NotFoundInfo } from './NotFoundInfo';
@@ -15,15 +15,22 @@ import { selectPrimaryAddress } from 'app/slice/selectors';
 import { AllCentered } from 'app/components/AllCentered';
 import { LoadingIndicator } from 'app/components/LoadingIndicator';
 import * as punycode from 'punycode';
+import { Lead } from '../../components/Lead';
+import { Highlight } from 'app/components/Highlight';
 
 export function ProfileOverview() {
   const { actions } = useProfileOverviewSlice();
-  const realmInfo = useSelector(selectRealmInfo);
+
+   const realmInfo = useSelector(selectRealmInfo);
+  const delegateInfo = useSelector(selectDelegateInfo);
+
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
   const { name }: any = useParams();
+
   const dispatch = useDispatch();
   const primaryAddress = useSelector(selectPrimaryAddress);
+
   const useEffectOnMount = (effect: React.EffectCallback) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(effect, []);
@@ -46,6 +53,7 @@ export function ProfileOverview() {
  
   return (
     <Wrapper className="pt-5">
+      
         {loading && (
         <AllCentered className="pt-5">
           <LoadingIndicator />
@@ -53,10 +61,11 @@ export function ProfileOverview() {
       )}
       {realmInfo ? (
         <>
-          <Nameheadline className="text-center">
-            <Title as="h1">+{fullName()}</Title>
-          </Nameheadline>
-          <RealmInfo key={realmInfo} data={realmInfo} />
+          <BannerDiv>
+          <Highlight>+{fullName().toLocaleUpperCase()}</Highlight>
+          </BannerDiv>
+
+          <RealmInfo key={realmInfo} data={realmInfo} delegate={delegateInfo} />
         </>
       ) : error ? (
         <div className="mt-5">
@@ -85,16 +94,37 @@ export const repoErrorText = (error: ProfileErrorType) => {
 };
 
 const Nameheadline = styled.div`
+position: relative;
+top: 2rem;
   text-wrap: nowrap;
   whitespace: nowrap;
   text-align: center;
-  justify-content: center;
+  justify-content: flex-end;
   display: flex;
+  padding: 10px;
 `;
 
 const Wrapper = styled.div`
   ${TextButton} {
     margin: 16px 0;
     font-size: 0.875rem;
+  }
+`;
+
+const BannerDiv = styled.div`
+  position: absolute; 
+  height: 15%;
+  left: 0;
+  width: 100%;
+  background-color: #313131;
+  color: #fff;
+  text-align: center;
+  z-index: -1;
+  display: flex;
+  padding: 10px;
+  justify-content: flex-end;
+
+  @media (max-width: 767px) {
+    position: unset; 
   }
 `;

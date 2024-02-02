@@ -34,7 +34,7 @@ const slice = createSlice({
           continue;
         }
         const atomical = action.payload[atomicalId];
-        if (atomical.type === 'NFT' && atomical.subtype === 'realm') {
+        if (atomical.type === 'NFT' && atomical.subtype === 'subrealm') {
           realms.push(atomical);
         } else if (atomical.type === 'NFT' && atomical.subtype === 'request_realm') {
           requestRealms.push(atomical);

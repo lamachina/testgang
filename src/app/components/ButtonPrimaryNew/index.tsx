@@ -46,26 +46,26 @@ const Button = styled.button`
   color: #eee;
   width: 100%;
   &:hover {
-    color: #fff;
+    color: #333;
     text-decoration: none;
     cursor: pointer;
   }
 
-  background-color: rgb(89, 36, 143);
-  background-image: rgb(89, 36, 143);
-  color: #fff;
+  background-color: rgba(181 ,255 ,59,1);
+  background-image:rgba(181 ,255, 59,1);
+  color: #333;
 
   &:hover {
-    color: #fff;
+    color: #000;
     text-decoration: none;
     cursor: pointer;
-    background-color: rgb(89, 36, 143, 0.9);
-    background-image: rgba(89, 36, 143, 0.9);
+    background-color: rgba(181 ,255 ,59,0.8);
+  background-image:rgba(181 ,255, 59,0.8);
   }
 
   &.disabled {
     opacity: 0.5;
-    color: #fff;
+    color: #000;
     &:hover {
       cursor: not-allowed;
       background-image: linear-gradient(

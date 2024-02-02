@@ -234,6 +234,7 @@ export function buildAtomicalsFileMapFromRawTx(
   markerSentinel = ATOMICALS_PROTOCOL_ENVELOPE_ID
 ): any {
   const tx = Transaction.fromHex(rawtx);
+  
   const filemap = {};
   let i = 0;
   for (const input of tx.ins) {

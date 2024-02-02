@@ -9,7 +9,7 @@ import { ButtonPrimaryNew } from 'app/components/ButtonPrimaryNew';
 
 export function GenerateScreen({
     addressIdentity,
-    phrase,
+    //phrase,
     confirmedStored,
     confirmedPermanent,
     onChangeConfirmedStored,
@@ -40,7 +40,7 @@ export function GenerateScreen({
                     <Label>Wallet Secret Words</Label>
                     <Info></Info>
                 </BoxHeading>
-                <ProfileSecretWords>{phrase}</ProfileSecretWords>
+                {/* <ProfileSecretWords>{phrase}</ProfileSecretWords> */}
                 <Warning className="d-none">
                     <WarningIcon className="fa fa-warning "></WarningIcon>
                     You must write down your Wallet Words someplace safe.

@@ -20,12 +20,13 @@ export function WalletInfo({ fundingAddress, primaryAddress, onDisconnect }: Pro
           {primaryAddress}
         </A>
       </FieldItem>
-      <FieldLabel>Funding Address:</FieldLabel>
-      <FieldItem>
-        <A href={`https://mempool.space/address/${fundingAddress}`} target="_blank">
-          {fundingAddress}
-        </A>
-      </FieldItem>
+      {fundingAddress &&
+      <><FieldLabel>Funding Address:</FieldLabel><FieldItem>
+          <A href={`https://mempool.space/address/${fundingAddress}`} target="_blank">
+            {fundingAddress}
+          </A>
+        </FieldItem></>
+      }
       <MaxDisconnectButton>
         <ButtonPrimaryNew block={false} onClick={() => onDisconnect()}>
           Disconnect Wallet

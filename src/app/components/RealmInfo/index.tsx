@@ -1,13 +1,144 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
 import { A } from 'app/components/A';
+import ColorTextDisplay from './ColorTextDisplay';
+import { SubTitle } from 'app/pages/ConnectPage/components/SubTitle';
+import { Title } from 'app/pages/RealmsPage/RealmsView/components/Title';
+import { extractDelegateId } from 'utils/helper';
 
 interface Props {
   data: any;
+  delegate: any;
   profileLink?: boolean;
 }
 
-export function RealmInfo({ data, profileLink }: Props) {
+export function RealmInfo({ data, delegate, profileLink }: Props) {
+
+const [imageData, setImageData] = React.useState<string | null>(null);
+
+// Function to fetch and set image data
+const fetchImageData = async () => {
+  if (delegate && delegate.state && delegate.state.history && delegate.state.history[0] && delegate.state.history[0].data.image) {
+    const delegateD = delegate.state.history[0].data.image;
+    const delegateId = extractDelegateId(delegateD);
+
+    if (delegateId) {
+      const apiUrl = `https://ep.atomicalswallet.com/proxy/blockchain.atomicals.get_state?params=["${delegateId}"]&pretty`;
+
+      try {
+        const response = await fetch(apiUrl);
+        const result = await response.json();
+        const latestData = result.response.result.state.latest;
+        // Find any property in the latestData object
+        const imageDataProperty = Object.keys(latestData)[0];
+
+        if (imageDataProperty) {
+          let imageDataHex;
+
+          if (latestData[imageDataProperty].$d) {
+            imageDataHex = latestData[imageDataProperty].$d;
+          } else if (latestData[imageDataProperty].$b && latestData[imageDataProperty].$b.$d) {
+            imageDataHex = latestData[imageDataProperty].$b.$d;
+          } else {
+            // Handle the case where neither $d nor $b.$d is available
+            console.error('No valid imageDataHex found');
+            return; // or set a default value, throw an error, etc.
+          }
+
+          if (imageDataHex) {
+            // Convert hex to base64
+            const base64ImageData = Buffer.from(imageDataHex, 'hex').toString('base64');
+            // Set the base64 image data and filename to state
+            setImageData(
+           base64ImageData,
+            );
+            
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching image data:', error);
+      }
+    }
+  }
+};
+
+  // Call the function when component mounts
+  React.useEffect(() => {
+    fetchImageData();
+  }, []);
+  
+ // Function to render social links from history[0]
+const renderSocialLinks = () => {
+  if (!delegate || !delegate || !delegate.state || !delegate.state.history) {
+    return null;
+  }
+  const historyItem = delegate.state.history[0];
+  if (historyItem && historyItem.data && historyItem.data.links && historyItem.data.links.length > 0) {
+    const socialLinks = historyItem.data.links.map((linkGroup: any) => {
+      if (linkGroup.group === 'social' && linkGroup.items) {
+        return Object.values(linkGroup.items).map((linkItem: any) => (
+          <div key={linkItem.type}>
+            <FieldLabel>{linkItem.name}:</FieldLabel>
+            <FieldItem>
+              <A href={linkItem.url} target="_blank">
+                {linkItem.url}
+              </A>
+            </FieldItem>
+          </div>
+        ));
+      }
+      return null;
+    });
+
+    return socialLinks;
+  }
+
+  return null;
+};
+ // Function to render social links from history[0]
+const rendArtLink = () => {
+  if (!delegate || !delegate || !delegate.state || !delegate.state.history) {
+    return null;
+  }
+  const historyItem = delegate.state.history[0];
+  if (historyItem && historyItem.data && historyItem.data.links && historyItem.data.links.length > 0) {
+    const artlink = historyItem.data.links.map((linkGroup: any) => {
+      if (linkGroup.group === 'art' && linkGroup.items) {
+        return Object.values(linkGroup.items).map((linkItem: any) => (
+          <div key={linkItem.name}>
+            <FieldLabel>{linkItem.name}:</FieldLabel>
+            <FieldItem>
+              <A href={linkItem.urn} target="_blank">
+                {linkItem.urn}
+              </A>
+            </FieldItem>
+          </div>
+        ));
+      }
+      return null;
+    });
+
+    return artlink;
+  }
+
+  return null;
+};
+
+    
+  const renderDescription = () => {
+    if (!delegate) {
+      return '';
+    }
+    return delegate?.state?.history[0]?.data?.desc;
+  };
+
+  const realmName = () => {
+    if (!delegate) {
+      return '';
+    }
+    return delegate?.state?.history[0]?.data?.name;
+  };
+
   const realmFullName = () => {
     if (!data) {
       return '';
@@ -46,12 +177,12 @@ export function RealmInfo({ data, profileLink }: Props) {
     }
     return data?.atomical_ref;
   };
-  const bitworkc = () => {
+ /*  const bitworkc = () => {
     if (!data) {
       return '';
     }
     return data?.$bitwork.bitworkc;
-  };
+  }; */
 
   const locationInfo = () => {
     if (!data) {
@@ -77,49 +208,40 @@ export function RealmInfo({ data, profileLink }: Props) {
     <Wrapper>
       {data && (
         <>
-          <Lead className="lead">
-            {' '}
-            &rarr; Realm whois info for <u>{realmFullName()}</u>
-          </Lead>
-          {profileLink && (
-            <ProfileField>
-              <ProfileFieldInner>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  fill="currentColor"
-                  className="bi bi-person-circle"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                  <path
-                    fillRule="evenodd"
-                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
-                  />
-                </svg>
-                &nbsp;&nbsp;
-                <A href={'/' + realmFullName()}>View +{realmFullName()}'s profile</A>
-              </ProfileFieldInner>
-            </ProfileField>
-          )}
+         
+          <FieldItemCenter>
+            {/* <FieldLabel>{atomicalNumber()}</FieldLabel> */}
+            <Img width={'144px'} src={`data:image/png;base64,${imageData}`} alt="Delegate Image" />
+
+            <Title >{realmName()}</Title>
+
+          </FieldItemCenter>
+      
           <Divider />
-          <FieldLabel>Atomical ID:</FieldLabel>
+{/* <ColorTextDisplay/> */}
+          <FieldItemCenter>
+          {renderDescription()}
+          </FieldItemCenter>
+
+          <Divider />
+
+          {renderSocialLinks()}
+          {rendArtLink()}
+
+        {/*   <FieldLabel>Atomical ID:</FieldLabel>
           <FieldItem>
             <A href={'https://mempool.space/tx/' + realmId()} target="_blank">
               {realmId()}
             </A>
           </FieldItem>
-          <FieldLabel>Atomical Number:</FieldLabel>
-          <FieldItem>{atomicalNumber()}</FieldItem>
 
           <FieldLabel>Atomical Ref:</FieldLabel>
           <FieldItem>{atomicalRef()}</FieldItem>
+ */}
+          {/* <FieldLabel>Bitwork Magic Prefix:</FieldLabel>
+          <FieldItem>{bitworkc()}</FieldItem> */}
 
-          <FieldLabel>Bitwork Magic Prefix:</FieldLabel>
-          <FieldItem>{bitworkc()}</FieldItem>
-
-          {locationInfo() && (
+        {/*   {locationInfo() && (
             <>
               <FieldLabel>Location:</FieldLabel>
               <FieldItem>
@@ -135,13 +257,13 @@ export function RealmInfo({ data, profileLink }: Props) {
                 </A>
               </FieldItem>
             </>
-          )}
-          <FieldLabel>Raw data</FieldLabel>
-          <FieldItem>
+          )} */}
+          {/* <FieldLabel>Raw data</FieldLabel>
+          <FieldLabel>
             <A href={rawDataUrl()} target="_blank">
               View raw data
             </A>
-          </FieldItem>
+          </FieldLabel> */}
         </>
       )}
     </Wrapper>
@@ -150,7 +272,6 @@ export function RealmInfo({ data, profileLink }: Props) {
 
 const ProfileField = styled.div`
   display: flex;
-
   align-items: center;
 `;
 const ProfileFieldInner = styled.div``;
@@ -170,6 +291,17 @@ const FieldItem = styled.p`
   color: ${p => p.theme.text};
   margin-bottom: 10px;
 `;
+const FieldItemCenter = styled.div`
+display: flex;
+flex-direction: row;
+gap: 2rem;
+justify-content: center;
+align-items: flex-end;
+margin-bottom: 20px;
+@media (max-width: 767px) {
+  flex-wrap: wrap;
+}
+`;
 
 const FieldLabel = styled.div`
   color: ${p => p.theme.textSecondary};
@@ -181,3 +313,14 @@ const Wrapper = styled.div`
   color: ${p => p.theme.text};
 `;
  
+const Img = styled.img`
+border-radius: 10%;
+`;
+ 
+const Nameheadline = styled.div`
+  text-wrap: nowrap;
+  whitespace: nowrap;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+`;

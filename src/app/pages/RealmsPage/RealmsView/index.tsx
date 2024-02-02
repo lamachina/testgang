@@ -7,6 +7,8 @@ import { FooterBasic } from 'app/components/FooterBasic';
 import { selectPrimaryAddress } from 'app/slice/selectors';
 import { RealmItem } from './RealmItem';
 import { LoadingIndicator } from 'app/components/LoadingIndicator';
+import TelegramJoinLink from 'app/components/TelegramInviteButton/TelegramInviteButton';
+import { AllCentered } from 'app/components/AllCentered';
 
 export function RealmsView() {
   const { actions } = useRealmsViewSlice();
@@ -15,12 +17,10 @@ export function RealmsView() {
   const dispatch = useDispatch();
 
   const useEffectOnMount = (effect: React.EffectCallback) => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(effect, []);
   };
 
   useEffectOnMount(() => {
-    // When initial state username is not null, submit the form to load repos
     dispatch(actions.loadRealms(primaryAddress as any));
   });
 
@@ -28,24 +28,34 @@ export function RealmsView() {
     if (!realms || !realms.length) {
       return [];
     }
-    const filteredForRealmsOnly = realms.filter((item: any) => {
-      if (item.subtype === 'realm') {
-        return true;
-      }
-      return false;
-    });
-    return filteredForRealmsOnly;
+    return realms.filter((item: any) => item.subtype === 'subrealm');
   };
+
+  const userOwnsSubrealm = realmsFiltered().some((subrealm) => {
+    return (
+      subrealm.full_realm_name.startsWith('gang.') &&
+      subrealm.request_subrealm_status.status === 'verified'
+    );
+  });
 
   return (
     <Wrapper className="mt-5">
-      <Header className="mb-5">My Realms</Header>
-      {realms &&
-        realms.length &&
-        realmsFiltered().map((item: any) => {
-          return <RealmItem key={item.atomical_id} realmInfo={item} />;
-        })}
-      {!realms && <LoadingIndicator />}
+      <Header className="mb-5">My gangs</Header>
+      {realms.length &&
+        realmsFiltered().map((item: any) => (
+          <RealmItem key={item.atomical_id} realmInfo={item} />
+        ))}
+
+      {userOwnsSubrealm && (
+        <TelegramJoinLink
+          inviteCode={'https://t.me/+2JqReduYWRczNzQ0'}
+        />
+      )}
+      {!realms.length && 
+      <AllCentered>
+        <LoadingIndicator />
+      </AllCentered>
+      }
       <FooterBasic />
     </Wrapper>
   );
@@ -54,7 +64,6 @@ export function RealmsView() {
 const Wrapper = styled.div``;
 
 const Header = styled.h2`
-   color: #fff;
-   font-size: 28px;
-   p
+  color: #fff;
+  font-size: 28px;
 `;

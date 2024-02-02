@@ -43,20 +43,20 @@ function validateSession(session): any | null {
   const validateCookie = (
     cookie
   ): {
-    sha256d: string;
-    encryptedPhrase: string;
-    encryptedPrimaryKey: string;
-    encryptedFundingKey: string;
+    //sha256d: string;
+    //encryptedPhrase: string;
+    //encryptedPrimaryKey: string;
+    //encryptedFundingKey: string;
     primaryPublicKey: string;
-    fundingPublicKey: string;
+    //fundingPublicKey: string;
   } => {
     if (
-      !cookie.encryptedPhrase ||
-      !cookie.encryptedPrimaryKey ||
-      !cookie.encryptedFundingKey ||
-      !cookie.primaryPublicKey ||
-      !cookie.fundingPublicKey ||
-      !cookie.sha256d
+      //!cookie.encryptedPhrase ||
+      //!cookie.encryptedPrimaryKey ||
+      //!cookie.encryptedFundingKey ||
+      !cookie.primaryPublicKey 
+      //!cookie.fundingPublicKey ||
+      //!cookie.sha256d
     ) {
       throw new Error('Invalid cookie format: ' + cookie);
     }

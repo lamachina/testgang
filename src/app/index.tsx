@@ -35,6 +35,7 @@ export function App() {
     React.useEffect(effect, []);
   };
 
+  
   useEffectOnMount(() => {
     // Initialize the cart from the cookie
     dispatch(actions.initSessionFromCookie());

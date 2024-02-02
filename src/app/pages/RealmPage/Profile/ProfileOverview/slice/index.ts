@@ -10,7 +10,8 @@ export const initialState: ProfileOverviewState = {
   repositories: [],
   loading: false,
   error: null,
-  realmInfo: null
+  realmInfo: null,
+  delegateInfo: null
 };
 
 const slice = createSlice({
@@ -41,10 +42,16 @@ const slice = createSlice({
       state.realmInfo = realmInfo.result;
       state.loading = false;
     },
+    delegateInfoLoaded(state, action: PayloadAction<Repo[]>) {
+      const delegateInfo: any = action.payload;
+      state.delegateInfo = delegateInfo.result;
+      state.loading = false;
+    },
   },
 });
 
 export const { actions: profileOverviewActions, reducer } = slice;
+
 
 export const useProfileOverviewSlice = () => {
   useInjectReducer({ key: slice.name, reducer: slice.reducer });

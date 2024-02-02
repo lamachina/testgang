@@ -41,33 +41,33 @@ const slice = createSlice({
     setEncryptedSession(
       state,
       action: PayloadAction<{
-        encryptedPhrase: string;
-        encryptedPrimaryKey: string;
-        encryptedFundingKey: string;
+       // encryptedPhrase: string;
+     //   encryptedPrimaryKey: string;
+     //   encryptedFundingKey: string;
         primaryPublicKey: string;
-        fundingPublicKey: string;
-        sha256d: string;
+       // fundingPublicKey: string;
+       // sha256d: string;
       }>
     ) {
-      state.encryptedPhrase = action.payload.encryptedPhrase;
-      state.encryptedPrimaryKey = action.payload.encryptedPrimaryKey;
-      state.encryptedFundingKey = action.payload.encryptedFundingKey;
+     // state.encryptedPhrase = action.payload.encryptedPhrase;
+      //state.encryptedPrimaryKey = action.payload.encryptedPrimaryKey;
+      //state.encryptedFundingKey = action.payload.encryptedFundingKey;
       state.primaryPublicKey = action.payload.primaryPublicKey;
-      state.fundingPublicKey = action.payload.fundingPublicKey;
-      state.sha256d = action.payload.sha256d;
-      state.primaryAddress = getP2TRAddressFromPublicKey(action.payload.primaryPublicKey);
-      state.fundingAddress = getP2TRAddressFromPublicKey(action.payload.fundingPublicKey);
+     // state.fundingPublicKey = action.payload.fundingPublicKey;
+    //  state.sha256d = action.payload.sha256d;
+      state.primaryAddress = action.payload.primaryPublicKey
+     // state.fundingAddress = getP2TRAddressFromPublicKey(action.payload.fundingPublicKey);
     },
 
     clearSession(state) {
-      state.encryptedPhrase = undefined;
-      state.encryptedPrimaryKey = undefined;
-      state.encryptedFundingKey = undefined;
+    //  state.encryptedPhrase = undefined;
+    //  state.encryptedPrimaryKey = undefined;
+     // state.encryptedFundingKey = undefined;
       state.primaryPublicKey = undefined;
-      state.fundingPublicKey = undefined;
+     // state.fundingPublicKey = undefined;
       state.primaryAddress = undefined;
-      state.fundingAddress = undefined;
-      state.sha256d = undefined;
+     // state.fundingAddress = undefined;
+    //  state.sha256d = undefined;
     },
 
     initSessionFromCookie(state) {

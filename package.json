@@ -60,6 +60,7 @@
     "file-loader": "^6.2.0",
     "fontfaceobserver": "2.3.0",
     "fs-extra": "^10.0.0",
+    "gsap": "3.12.5",
     "html-webpack-plugin": "^5.5.0",
     "https-browserify": "1.0.0",
     "husky": "8.0.1",
@@ -136,8 +137,8 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
-    "start": "DISABLE_ESLINT_PLUGIN=true node scripts/start.js",
-    "build": "DISABLE_ESLINT_PLUGIN=true node scripts/build.js",
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "start:prod": "yarn run build && serve -s build",
     "test:generators": "ts-node ./internals/testing/generators/test-generators.ts",

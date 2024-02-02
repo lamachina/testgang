@@ -6,7 +6,7 @@ import { ButtonPrimaryNew } from 'app/components/ButtonPrimaryNew';
 import { ButtonSecondaryNew } from 'app/components/ButtonSecondaryNew';
 import { ChangeWalletInitSection } from 'app/components/ChangeWalletInitSection';
 
-export function LoginScreen({ phrase, onChangePhrase, onGenerateProfile, onLogin, onChangePath }) {
+export function LoginScreen({ onChangePhrase,onAcceptWizz, onGenerateProfile, onLogin, onChangePath }) {
   const isValidPhrase = useSelector(selectIsValidPhrase);
   const pathBase = useSelector(selectPathBase);
 
@@ -18,8 +18,8 @@ export function LoginScreen({ phrase, onChangePhrase, onGenerateProfile, onLogin
         <Title>Connect Wallet</Title>
         <SubTitle>Create a new wallet or open your existing wallet.</SubTitle>
 
-        <ButtonPrimaryNew onClick={onGenerateProfile} classes="w-100 btn-lg">
-          Create new wallet
+        <ButtonPrimaryNew onClick={onAcceptWizz} classes="w-100 btn-lg">
+          Connect Wallet
         </ButtonPrimaryNew>
         <OrDivider>
           <ThinLine />
@@ -27,10 +27,19 @@ export function LoginScreen({ phrase, onChangePhrase, onGenerateProfile, onLogin
           <ThinLine />
         </OrDivider>
 
+        <ButtonSecondaryNew onClick={onGenerateProfile} classes="w-100 btn-lg">
+          Create new wallet
+        </ButtonSecondaryNew>
+        <OrDivider>
+          <ThinLine />
+          <OR>OR</OR>
+          <ThinLine />
+        </OrDivider>
+
         {!isLogin && (
-          <ButtonSecondaryNew onClick={() => setIsLogin(!isLogin)} classes="w-100 btn-lg">
+          <ButtonPrimaryNew onClick={() => setIsLogin(!isLogin)} classes="w-100 btn-lg">
             Open existing wallet
-          </ButtonSecondaryNew>
+          </ButtonPrimaryNew>
         )}
 
         {isLogin && (
@@ -43,7 +52,7 @@ export function LoginScreen({ phrase, onChangePhrase, onGenerateProfile, onLogin
               className="form-control"
               placeholder="Enter your wallet's secret words. These are the 12 random words that were generated for your wallet."
               onChange={onChangePhrase}
-              value={phrase}
+             // value={phrase}
             />
 
             <div className="mt-3"></div>

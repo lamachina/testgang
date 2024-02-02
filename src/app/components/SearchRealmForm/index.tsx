@@ -21,6 +21,8 @@ import { FirstClaimBox } from 'app/components/FirstClaimBox';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { LoadingIndicator } from '../LoadingIndicator';
 import { AllCentered } from '../AllCentered';
+import { selectDelegateInfo } from 'app/pages/RealmPage/Profile/ProfileOverview/slice/selectors';
+
 interface Props {
   redirectOnly?: boolean;
   redirectPath?: string;
@@ -32,6 +34,7 @@ export function SearchRealmForm({ redirectOnly, redirectPath }: Props) {
   const navigate = useNavigate();
   const name = useSelector(selectName);
   const realmInfo = useSelector(selectRealmInfo);
+  const delegateInfo = useSelector(selectDelegateInfo);
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
   const dispatch = useDispatch();
@@ -47,7 +50,7 @@ export function SearchRealmForm({ redirectOnly, redirectPath }: Props) {
       navigate({
         pathname: redirectPath as any,
         search: `?${createSearchParams({
-          q: name,
+          q:`gang.${name}`,
         })}`,
       });
     } else {
@@ -105,7 +108,7 @@ export function SearchRealmForm({ redirectOnly, redirectPath }: Props) {
         </AllCentered>
       )}
       {realmInfo ? (
-        <RealmInfo key={realmInfo} data={realmInfo} profileLink={true} />
+        <RealmInfo key={realmInfo} data={realmInfo} delegate={delegateInfo} profileLink={true} />
       ) : error ? (
         error === SearchRealmErrorType.REALM_NOT_FOUND ? (
           <NotFoundInfo>

@@ -8,7 +8,7 @@ import {
   ElectrumApiMockFactory,
 } from 'utils/builder/services/electrum-api-factory';
 import { getMockApi } from './mock-api';
-import { isValidRealmName } from 'utils/builder/atomical-format-helpers';
+import { isValidSubRealmName } from 'utils/builder/atomical-format-helpers';
 
 const remoteElectrumxUrl = process.env.REACT_APP_ELECTRUMX_PROXY_BASE_URL;
 
@@ -21,7 +21,7 @@ export function* getRealmInfoRequest() {
     return;
   }
   try {
-    isValidRealmName(name);
+    isValidSubRealmName(name);
   } catch (err) {
     console.log(err);
     yield put(actions.repoError(SearchRealmErrorType.REALM_NAME_INVALID));
@@ -32,7 +32,7 @@ export function* getRealmInfoRequest() {
   const factory = new ElectrumApiFactory(remoteElectrumxUrl + '', mockFactory.getMock());
   client = factory.create();
   try {
-    const res = yield client.atomicalsGetRealmInfo(name);
+    const res = yield client.atomicalsFindSubRealms("2e18a50099dbb3af6eb33c15f7d6c19a9775f28796297b9f661f04f0d1ce8bf3i0", name);
     if (res && res.result && res.result.atomical_id) {
       const atomicalInfo = yield client.atomicalsGetLocation(res.result.atomical_id);
       yield put(actions.realmInfoLoaded(atomicalInfo));

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components/macro';
 import { useSlice } from './slice';
@@ -18,19 +18,85 @@ import {
   selectShowLoginConfirm,
   selectConfirmPassword,
 } from './slice/selectors';
-import { AES_SALT, useAppGlobalStateSlice } from 'app/slice';
+import { AES_SALT, appGlobalActions, useAppGlobalStateSlice } from 'app/slice';
 import { updateSessionCookie } from 'utils/session-validator';
+import { addressToP2PKH, addressToScripthash, detectAddressTypeToScripthash } from 'utils/builder/helpers/address-helpers';
 
 interface Props {
   onCompleted?: any;
 }
-
 
 export function ConnectView({ onCompleted }: Props) {
   const { actions } = useSlice();
   const globalSlice = useAppGlobalStateSlice();
   const [cookies, setCookie]: any = useCookies([]);
   const dispatch = useDispatch();
+  
+  const [connected, setConnected] = useState(false);
+  const [accounts, setAccounts] = useState<string[]>([]);
+  const [publicKey, setPublicKey] = useState("");
+  const [address, setAddress] = useState("");
+  const [balance, setBalance] = useState({
+    confirmed: 0,
+    unconfirmed: 0,
+    total: 0,
+  });
+
+  const [unisatInstalled, setUnisatInstalled] = useState(false);
+  
+  const showLoginConfirm = useSelector(selectShowLoginConfirm);
+  const confirmedPermanent = useSelector(selectConfirmedPermanent);
+  const confirmedStored = useSelector(selectConfirmedStored);
+  const funding = useSelector(selectFunding);
+  const primary = useSelector(selectPrimary);
+  const confirmPassword = useSelector(selectConfirmPassword);
+  const newPassword = useSelector(selectNewPassword);
+
+  // Define the structure of the self object
+  const selfRef = useRef<{ accounts?: string[] }>({
+    accounts: [],
+  });
+
+  const self = selfRef.current;
+  const atom = (window as any).atom;
+
+  // Function to connect the wallet and log information
+  const connectWallet = async () => {
+    try {
+      const result = await atom.requestAccounts();
+      handleAccountsChanged(result);
+      const publicKey = await atom.getPublicKey();
+
+      // Log wallet information
+      console.log('Connected Accounts:', accounts);
+      console.log('Public Key:', publicKey);
+      console.log('Address:', address);
+      console.log('Balance:', balance);
+    } catch (error) {
+      console.error('Error connecting to the wallet:', error);
+    }
+  };
+
+
+
+  const handleAccountsChanged = (_accounts: string[]) => {
+    if (self.accounts && self.accounts[0] === _accounts[0]) {
+      // prevent from triggering twice
+      return;
+    }
+
+    self.accounts = _accounts;
+
+    if (_accounts.length > 0) {
+      setAccounts(_accounts);
+      setConnected(true);
+      setAddress(_accounts[0]);
+      setPublicKey(publicKey);
+      
+    } else {
+      setConnected(false);
+    }
+  };
 
   function onChangePhrase(e) {
     dispatch(
@@ -51,22 +117,6 @@ export function ConnectView({ onCompleted }: Props) {
   function onGenerateProfile() {
     dispatch(actions.triggerGenerateProfile());
   }
-
-  const showLoginConfirm = useSelector(selectShowLoginConfirm);
-  const confirmedPermanent = useSelector(selectConfirmedPermanent);
-  const confirmedStored = useSelector(selectConfirmedStored);
-  const funding = useSelector(selectFunding);
-  const primary = useSelector(selectPrimary);
-  const phrase = useSelector(selectPhrase);
-  const confirmPassword = useSelector(selectConfirmPassword);
-  const newPassword = useSelector(selectNewPassword);
-
-  const address = () => {
-    if (!primary) {
-      return '';
-    }
-    return primary.address;
-  };
 
   function onChangeConfirmedStored(val) {
     dispatch(actions.changeConfirmStored(val));
@@ -91,7 +141,7 @@ export function ConnectView({ onCompleted }: Props) {
   }
 
   function onAcceptPassword() {
-    const encryptedPhrase = CryptoJS.AES.encrypt(phrase, confirmPassword + AES_SALT).toString();
+    //const encryptedPhrase = CryptoJS.AES.encrypt(phrase, confirmPassword + AES_SALT).toString();
 
     const encryptedPrimaryKey = CryptoJS.AES.encrypt(
       primary.addressPrivateKey,
@@ -105,11 +155,11 @@ export function ConnectView({ onCompleted }: Props) {
 
     const sha256d = CryptoJS.SHA256(CryptoJS.SHA256(confirmPassword)).toString();
 
-    const bytesPhrase = CryptoJS.AES.decrypt(encryptedPhrase, confirmPassword + AES_SALT);
+    /* const bytesPhrase = CryptoJS.AES.decrypt(encryptedPhrase, confirmPassword + AES_SALT);
     const originalTextPhrase = bytesPhrase.toString(CryptoJS.enc.Utf8);
     if (originalTextPhrase !== phrase) {
       throw new Error(`Critical error: Invalid matching phrase`);
-    }
+    } */
 
     const bytesPrimaryKey = CryptoJS.AES.decrypt(encryptedPrimaryKey, confirmPassword + AES_SALT);
     const originalTextPrimary = bytesPrimaryKey.toString(CryptoJS.enc.Utf8);
@@ -123,7 +173,7 @@ export function ConnectView({ onCompleted }: Props) {
       throw new Error(`Critical error: Invalid matching funding.addressPrivateKey`);
     }
     const newSession = {
-      encryptedPhrase,
+      //encryptedPhrase,
       encryptedPrimaryKey,
       encryptedFundingKey,
       primaryPublicKey: primary.addressPublicKey,
@@ -149,12 +199,36 @@ export function ConnectView({ onCompleted }: Props) {
       onCompleted();
     }
   }
+  
+  function onWizz() {
+
+    if (atom) {
+      setUnisatInstalled(true);
+      // Automatically connect the wallet when Unisat is detected
+      connectWallet();
+    } 
+     // Dispatch the action with the desired primaryAddress
+     const newSession = {
+      primaryPublicKey: address,
+    };
+    dispatch(globalSlice.actions.setEncryptedSession(newSession));
+    setCookie(
+      'bpKey',
+      JSON.stringify({
+        primaryPublicKey: address,
+      }),
+      { path: '/', sameSite: 'none', secure: true, maxAge: 3600 * 24 * 365 }
+    );
+    updateSessionCookie(newSession);
+  }
+  
 
   return (
     <Wrapper>
       {showLoginConfirm === 'CONNECT' && (
         <LoginScreen
-          phrase={phrase}
+          //phrase={phrase}
+          onAcceptWizz={onWizz}
           onChangePhrase={onChangePhrase}
           onChangePath={onChangePath}
           onGenerateProfile={onGenerateProfile}
@@ -163,8 +237,8 @@ export function ConnectView({ onCompleted }: Props) {
       )}
       {showLoginConfirm === 'GENERATED' && (
         <GenerateScreen
-          phrase={phrase}
-          addressIdentity={address()}
+          //phrase={phrase}
+          addressIdentity={address}
           confirmedStored={confirmedStored}
           confirmedPermanent={confirmedPermanent}
           onChangeConfirmedStored={onChangeConfirmedStored}
@@ -175,7 +249,7 @@ export function ConnectView({ onCompleted }: Props) {
       )}
       {showLoginConfirm === 'PASSWORD' && (
         <PasswordScreen
-          addressIdentity={address()}
+          addressIdentity={address}
           confirmPassword={confirmPassword}
           newPassword={newPassword}
           onChangePassword={onChangePassword}
@@ -207,3 +281,4 @@ const Wrapper = styled.div`
     padding: 0px;
   }
 `;
+

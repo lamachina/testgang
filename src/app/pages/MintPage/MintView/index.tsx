@@ -4,7 +4,7 @@ import { TextButton } from './components/TextButton';
 import { NftMinter } from 'app/components/NftMinter';
 import { selectPrimaryAddress } from 'app/slice/selectors';
 import { useSelector } from 'react-redux';
-import { isValidRealmName } from 'utils/builder/atomical-format-helpers';
+import { isValidSubRealmName } from 'utils/builder/atomical-format-helpers';
 import { AllCentered } from 'app/components/AllCentered';
 
 interface Props {
@@ -22,7 +22,7 @@ export function MintView({ name }: Props) {
   });
   const isValidName = () => {
     try {
-      return isValidRealmName(name);
+      return isValidSubRealmName(name);
     } catch (err) {
       console.log(err);
     }

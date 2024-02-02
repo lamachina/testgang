@@ -24,6 +24,7 @@ import { getSubdomainString } from './helpers/getSubdomain';
 import { RealmsPage } from './pages/RealmsPage';
 import { ClaimPage } from './pages/ClaimPage';
 import { MintPage } from './pages/MintPage';
+import { SharedProfile } from './pages/SharedProfile';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -56,6 +57,7 @@ export function App() {
         <Route path="/_search" element={<ClaimPage />} />
         <Route path="/_claim" element={<ClaimPage />} />
         <Route path="/_mint/:name" element={<MintPage />} />
+        <Route path="/_realm/:name" element={<SharedProfile />} />
         <Route path="/:name" element={<RealmPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

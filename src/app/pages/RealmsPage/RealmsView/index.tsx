@@ -9,6 +9,7 @@ import { RealmItem } from './RealmItem';
 import { LoadingIndicator } from 'app/components/LoadingIndicator';
 import TelegramJoinLink from 'app/components/TelegramInviteButton/TelegramInviteButton';
 import { AllCentered } from 'app/components/AllCentered';
+import { Lead } from 'app/pages/HomePage/components/Lead';
 
 export function RealmsView() {
   const { actions } = useRealmsViewSlice();
@@ -41,21 +42,24 @@ export function RealmsView() {
   return (
     <Wrapper className="mt-5">
       <Header className="mb-5">My gangs</Header>
-      {realms.length &&
+      {realms?.length !== 0 ?
         realmsFiltered().map((item: any) => (
           <RealmItem key={item.atomical_id} realmInfo={item} />
-        ))}
+        )) : 
+        <><Lead>No gangs found.</Lead><Lead> Please connect or claim a +gang now.</Lead></>
+        }
 
       {userOwnsSubrealm && (
         <TelegramJoinLink
           inviteCode={'https://t.me/+2JqReduYWRczNzQ0'}
         />
       )}
-      {!realms.length && 
+     {/*  {!realms.length && 
       <AllCentered>
         <LoadingIndicator />
       </AllCentered>
-      }
+      } */}
+    
       <FooterBasic />
     </Wrapper>
   );

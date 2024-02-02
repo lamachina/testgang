@@ -5,6 +5,8 @@ import ColorTextDisplay from './ColorTextDisplay';
 import { SubTitle } from 'app/pages/ConnectPage/components/SubTitle';
 import { Title } from 'app/pages/RealmsPage/RealmsView/components/Title';
 import { extractDelegateId } from 'utils/helper';
+import { TwitterShareButton, TwitterIcon } from 'react-share';
+
 
 interface Props {
   data: any;
@@ -227,6 +229,17 @@ const rendArtLink = () => {
 
           {renderSocialLinks()}
           {rendArtLink()}
+
+           {/* Twitter Share Button */}
+           <Divider />
+          <FieldItemCenter>
+            <TwitterShareButton
+              url={`https://localhost:3000/${realmFullName()}`} // Replace with your app's URL and query parameters
+              title={`Check out the +bullrun of ${realmName()} !`} // Customize the tweet text
+            >
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
+          </FieldItemCenter>
 
         {/*   <FieldLabel>Atomical ID:</FieldLabel>
           <FieldItem>

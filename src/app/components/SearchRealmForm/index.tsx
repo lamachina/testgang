@@ -50,7 +50,7 @@ export function SearchRealmForm({ redirectOnly, redirectPath }: Props) {
       navigate({
         pathname: redirectPath as any,
         search: `?${createSearchParams({
-          q:`gang.${name}`,
+          q:`gang.${name} , 0`,
         })}`,
       });
     } else {

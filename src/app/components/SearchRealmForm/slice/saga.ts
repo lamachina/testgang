@@ -32,7 +32,7 @@ export function* getRealmInfoRequest() {
   const factory = new ElectrumApiFactory(remoteElectrumxUrl + '', mockFactory.getMock());
   client = factory.create();
   try {
-    const res = yield client.atomicalsFindSubRealms("2e18a50099dbb3af6eb33c15f7d6c19a9775f28796297b9f661f04f0d1ce8bf3i0", name);
+    const res = yield client.atomicalsGetRealmInfo("gang.wagmi");
     if (res && res.result && res.result.atomical_id) {
       const atomicalInfo = yield client.atomicalsGetLocation(res.result.atomical_id);
       yield put(actions.realmInfoLoaded(atomicalInfo));

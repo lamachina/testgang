@@ -212,7 +212,6 @@ const rendArtLink = () => {
         <>
          
           <FieldItemCenter>
-            {/* <FieldLabel>{atomicalNumber()}</FieldLabel> */}
             <Img width={'144px'} src={`data:image/png;base64,${imageData}`} alt="Delegate Image" />
 
             <Title >{realmName()}</Title>
@@ -229,6 +228,7 @@ const rendArtLink = () => {
 
           {renderSocialLinks()}
           {rendArtLink()}
+            {/* <FieldLabel>{atomicalNumber()}</FieldLabel> */}
 
            {/* Twitter Share Button */}
            <Divider />

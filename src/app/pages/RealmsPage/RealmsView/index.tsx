@@ -46,7 +46,9 @@ export function RealmsView() {
         realmsFiltered().map((item: any) => (
           <RealmItem key={item.atomical_id} realmInfo={item} />
         )) : 
-        <><Lead>No gangs found.</Lead><Lead> Please connect or claim a +gang now.</Lead></>
+        <AllCentered>
+        <Lead>No gangs found. Searching...</Lead>
+        </AllCentered>
         }
 
       {userOwnsSubrealm && (
@@ -54,11 +56,11 @@ export function RealmsView() {
           inviteCode={'https://t.me/+2JqReduYWRczNzQ0'}
         />
       )}
-     {/*  {!realms.length && 
+      {!realms.length && 
       <AllCentered>
         <LoadingIndicator />
       </AllCentered>
-      } */}
+      }
     
       <FooterBasic />
     </Wrapper>

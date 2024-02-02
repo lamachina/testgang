@@ -1,11 +1,14 @@
 import { Logo } from './Logo';
 import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { useAppGlobalStateSlice } from 'app/slice';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { ButtonConnected } from '../ButtonConnected';
+import { selectThemeKey } from 'styles/theme/slice/selectors';
+import { themeActions } from 'styles/theme/slice';
+import { AllCentered } from '../AllCentered';
 interface Props {
   primaryAddress?: string;
   activeLink?: string;
@@ -17,6 +20,15 @@ export function MobileMenu({ activeLink, primaryAddress }: Props) {
   const globalSlice = useAppGlobalStateSlice();
   const navigate = useNavigate();
   const [bsCanvas, setBsCanvas]: any = React.useState(undefined);
+  const currentTheme = useSelector(selectThemeKey);
+
+  const toggleTheme = () => {
+    // Check the current theme and toggle to the opposite theme
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    // Dispatch the action to change the theme
+    dispatch(themeActions.changeTheme(newTheme));
+  };
 
   function getOffCanvasClassNames(currentLink?: string): string {
     let classes = `nav-link px-2 fw-bold`;
@@ -28,6 +40,10 @@ export function MobileMenu({ activeLink, primaryAddress }: Props) {
 
   const onOpenHome = (evt: any) => {
     navigate('/');
+  };
+
+  const onOpenMyRealms = (evt: any) => {
+    navigate('/_realms');
   };
 
   const onOpenSearch = (evt: any) => {
@@ -143,10 +159,15 @@ export function MobileMenu({ activeLink, primaryAddress }: Props) {
         <OffCanvasBody className="offcanvas-body">
           <div className="mt-5"></div>
 
+          <ItemButton onClick={toggleTheme}>
+          Current mode:<i color='gold' className={currentTheme === 'light' ? 'fa fa-sun' : 'fa fa-moon'}></i> 
+          </ItemButton>
+
+
           {primaryAddress && (
             <ItemButton
               className={getOffCanvasClassNames('app')}
-              onClick={gotoApp}
+              onClick={onOpenMyRealms}
               title="Launch app"
               data-bs-dismiss="offcanvas"
               aria-label="Close"
@@ -231,7 +252,7 @@ const CloseIconWrapper = styled.div`
   cursor: pointer;
   justify-content: flex-start;
   position: relative;
-  left: -80px;
+  left: -60px;
 `;
 
 const OffCanvas = styled.div`

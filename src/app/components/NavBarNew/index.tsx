@@ -9,6 +9,8 @@ import { MobileMenu } from './MobileMenu';
 import { Logo } from './Logo';
 import { ButtonConnected } from '../ButtonConnected';
 import { useNavigate } from 'react-router-dom';
+import { themeActions } from 'styles/theme/slice';
+import { selectTheme, selectThemeKey } from 'styles/theme/slice/selectors';
 interface Props {
   identityPubKey?: string;
   mode?: string | 'home' | 'dashboard';
@@ -21,6 +23,15 @@ export function NavBarNew({ mode }: Props) {
   const navigate = useNavigate();
   const globalSlice = useAppGlobalStateSlice();
   const primaryAddress = useSelector(selectPrimaryAddress);
+  const currentTheme = useSelector(selectThemeKey);
+
+  const toggleTheme = () => {
+    // Check the current theme and toggle to the opposite theme
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    // Dispatch the action to change the theme
+    dispatch(themeActions.changeTheme(newTheme));
+  };
 
   function onLogout() {
     dispatch(globalSlice.actions.clearSession());
@@ -71,6 +82,13 @@ export function NavBarNew({ mode }: Props) {
             </HomeLink>
 
             <NavBarRightItems>
+
+            <Item
+                className="nav-link px-2"
+                onClick={toggleTheme}
+              >
+                <i className="fa fa-home"></i> light
+              </Item>
 
               <Item
                 className="nav-link px-2"

@@ -61,9 +61,9 @@ export function ProfileOverview() {
       )}
       {realmInfo ? (
         <>
-          <BannerDiv>
+          {/* <BannerDiv>
           <Highlight>+{fullName().toLocaleUpperCase()}</Highlight>
-          </BannerDiv>
+          </BannerDiv> */}
 
           <RealmInfo key={realmInfo} data={realmInfo} delegate={delegateInfo} />
         </>

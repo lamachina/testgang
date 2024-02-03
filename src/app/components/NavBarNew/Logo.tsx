@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
-import bplogo from  'app/assets/realmslogoplus.png';
+import bplogo from  'app/assets/realmlogo.png';
 //import bplogo from  './assets/b-logo-blue.png';
 export function Logo() {
   return (
@@ -28,10 +28,10 @@ const Description = styled.div`
 `;
 
 const ImgLogo = styled.img`
-   max-width: 220px;
+   max-width: 70px;
 
    @media (max-width: 768px) {
-    max-width: 180px;
+    max-width: 44px;
   }
 `;
 

@@ -70,6 +70,6 @@ export function RealmsView() {
 const Wrapper = styled.div``;
 
 const Header = styled.h2`
-  color: #fff;
+color: ${p => p.theme.primary}
   font-size: 28px;
 `;

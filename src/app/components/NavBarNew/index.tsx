@@ -97,7 +97,7 @@ export function NavBarNew({ mode }: Props) {
                 rel="noopener noreferrer"
                 onClick={onOpenRealms}
               >
-                <i className="fa fa-home"></i> My Gangs
+                <i className="fa fa-home"></i> My Bullrealms
               </Item>
 
               <Item
@@ -107,7 +107,7 @@ export function NavBarNew({ mode }: Props) {
                 rel="noopener noreferrer"
                 onClick={onOpenSearch}
               >
-                <i className="fa fa-search"></i> Search Gangs
+                <i className="fa fa-search"></i> Search +bullrun
               </Item>
 
               <Item
@@ -116,7 +116,7 @@ export function NavBarNew({ mode }: Props) {
                 title="FAQ"
                 rel="noopener noreferrer"
               >
-                <i className="fa fa-book"></i>&nbsp; Gang Guide
+                <i className="fa fa-book"></i>&nbsp; Bullrun Guide
               </Item>
 
               <ProfileIconContainer className="profile-nav" title="Profile Page">

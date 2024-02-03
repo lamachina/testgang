@@ -112,7 +112,6 @@ const OrDivider = styled.div`
   justify-content: space-between;
   align-items: center;
   white-space: nowrap;
-  color: #eee;
 `;
 
 const Title = styled.h3`
@@ -121,7 +120,6 @@ const Title = styled.h3`
 
 const SubTitle = styled.p`
   text-align: center;
-  color: #eee;
   font-size: 1.1em;
 `;
 

@@ -263,7 +263,6 @@ export function ConnectView({ onCompleted }: Props) {
 
 const Wrapper = styled.div`
   width: 100%;
-  color: #eee;
   align-items: center;
   height: 100%;
   padding: 20px;

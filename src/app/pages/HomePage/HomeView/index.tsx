@@ -47,7 +47,7 @@ export function HomeView() {
             <BigLogo />
           </LogoWrapper>
           <Title as="h1">
-            Claim your <Highlight>+GANG</Highlight> on Bitcoin
+            Claim your <Highlight>+bullrun</Highlight> on Bitcoin
           </Title>
           <Lead>
             The Realm Name System (RNS) is the world's first permissionless name system to replace
@@ -57,7 +57,7 @@ export function HomeView() {
             </A>
           </Lead>
             <ButtonPrimaryNew classes="w-100 btn-lg" onClick={handleButtonClick}>
-<h4>my +gang</h4>
+          <h4>my +bullrun</h4>
             </ButtonPrimaryNew>
         </div>
       </div>

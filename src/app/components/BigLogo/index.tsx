@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import gsap from 'gsap';
-import logo from './realmsicon.png';
+import logo from './realmlogo.png';
 
 export function BigLogo() {
   const logoRef = useRef(null);
@@ -10,16 +10,19 @@ export function BigLogo() {
     // Create a GSAP timeline
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
 
-    // Define the animation
-    tl.to(logoRef.current, { duration: 1, y: -20, ease: 'power2.out' });
+    // Define the translation animation
+    tl.to(logoRef.current, { duration: 2, y: -30, ease: 'power2.out' });
 
-    // You can add more animations to the timeline if needed
+    // Add a rotation animation every 4.4 seconds
+    tl.to(logoRef.current, { duration: 0.4, rotation: -20, ease: 'power2.out' }, "-=1.7"); // Rotate after 3.4 seconds
 
     // Cleanup on component unmount
     return () => {
-      tl.kill(); // Kill the timeline to prevent memory leaks
+        tl.kill(); // Kill the timeline to prevent memory leaks
     };
-  }, []);
+}, []);
+
+
 
   return (
     <Wrapper>
@@ -31,11 +34,12 @@ export function BigLogo() {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  padding-top: 20px
+
 `;
 
 const ImgLogo = styled.img`
   max-width: 250px;
-
   @media (max-width: 768px) {
     max-width: 125px;
   }

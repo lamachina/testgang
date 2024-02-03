@@ -9,13 +9,13 @@ export function FooterBasic() {
         <UL className="nav justify-content-center pb-3 mb-3">
          
           <LI className="nav-item">
-            <A href="/" className="nav-link px-2">
-              <i className="fa fa-search"></i> Search Gangs
+            <A href="https://docs.atomicals.xyz/realm-names" className="nav-link px-2">
+              <i className="fa fa-book"></i> Bullrun Guide
             </A>
           </LI>
           <LI className="nav-item">
-            <A href="https://docs.atomicals.xyz/realm-names" className="nav-link px-2">
-              <i className="fa fa-book"></i> Gang Guide
+            <A href="https://x.com/AtomicalsGang" className="nav-link pxd-2">
+              @RealmBullrun
             </A>
           </LI>
           <LI className="nav-item">
@@ -23,11 +23,7 @@ export function FooterBasic() {
               <i className="fa fa-github"></i> Github
             </A>
           </LI>
-          <LI className="nav-item">
-            <A href="https://x.com/AtomicalsGang" className="nav-link pxd-2">
-              @AtomicalsGANG
-            </A>
-          </LI>
+          
         </UL>
       </Footer>
     </Wrapper>

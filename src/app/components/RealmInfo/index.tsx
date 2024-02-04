@@ -107,14 +107,13 @@ const rendArtLink = () => {
     const artlink = historyItem.data.links.map((linkGroup: any) => {
       if (linkGroup.group === 'art' && linkGroup.items) {
         return Object.values(linkGroup.items).map((linkItem: any) => (
-          <div key={linkItem.name}>
-            <FieldLabel>{linkItem.name}:</FieldLabel>
-            <FieldItem>
-              <A href={linkItem.urn} target="_blank">
-                {linkItem.urn}
-              </A>
-            </FieldItem>
+          <StyledLinkContainer key={linkItem.name}>
+          <div className="field-item">
+            <a href={`https://wizz.cash/dmint/${linkItem.name.substring(1)}`} target="_blank">
+              {linkItem.name}
+            </a>
           </div>
+        </StyledLinkContainer>
         ));
       }
       return null;
@@ -219,7 +218,6 @@ const rendArtLink = () => {
           </FieldItemCenter>
       
           <Divider />
-{/* <ColorTextDisplay/> */}
           <FieldItemCenter>
           {renderDescription()}
           </FieldItemCenter>
@@ -227,7 +225,15 @@ const rendArtLink = () => {
           <Divider />
 
           {renderSocialLinks()}
+
+          <Divider />
+
+          <FieldLabel>
+            COLLECTIONS
+          </FieldLabel>
+          <Wrappo>
           {rendArtLink()}
+          </Wrappo>
             {/* <FieldLabel>{atomicalNumber()}</FieldLabel> */}
 
            {/* Twitter Share Button */}
@@ -235,7 +241,7 @@ const rendArtLink = () => {
           <FieldItemCenter>
             <TwitterShareButton
               url={`https://localhost:3000/${realmFullName()}`} // Replace with your app's URL and query parameters
-              title={`Check out the +bullrun of ${realmName()} !`} // Customize the tweet text
+              title={`Check out ${realmName()}\'s +bullrun !`} // Customize the tweet text
             >
               <TwitterIcon size={32} round />
             </TwitterShareButton>
@@ -283,12 +289,16 @@ const rendArtLink = () => {
   );
 }
 
+/* ProfileField */
 const ProfileField = styled.div`
   display: flex;
   align-items: center;
 `;
+
+/* ProfileFieldInner */
 const ProfileFieldInner = styled.div``;
 
+/* Divider */
 const Divider = styled.div`
   color: ${p => p.theme.text};
   border-top: solid 1px #484848;
@@ -296,44 +306,88 @@ const Divider = styled.div`
   margin-bottom: 15px;
 `;
 
+/* Lead */
 const Lead = styled.p`
   color: ${p => p.theme.text};
 `;
 
+/* FieldItem */
 const FieldItem = styled.p`
   color: ${p => p.theme.text};
   margin-bottom: 10px;
 `;
+
+/* FieldItemCenter */
 const FieldItemCenter = styled.div`
-display: flex;
-flex-direction: row;
-gap: 2rem;
-justify-content: center;
-align-items: flex-end;
-margin-bottom: 20px;
-@media (max-width: 767px) {
-  flex-wrap: wrap;
-}
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 20px;
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
+  }
 `;
 
+/* FieldLabel */
 const FieldLabel = styled.div`
   color: ${p => p.theme.textSecondary};
   margin-bottom: 5px;
 `;
 
+/* Wrapper */
 const Wrapper = styled.div`
   font-weight: 500;
   color: ${p => p.theme.text};
 `;
- 
-const Img = styled.img`
-border-radius: 10%;
+
+const Wrappo = styled.div`
+display: flex;
+gap: 2rem;
+justify-content: center;
+padding-top: 1rem;
 `;
- 
+
+/* Img */
+const Img = styled.img`
+  border-radius: 10%;
+`;
+
+/* Nameheadline */
 const Nameheadline = styled.div`
   text-wrap: nowrap;
   whitespace: nowrap;
   text-align: center;
   justify-content: center;
   display: flex;
+`;
+
+const StyledLinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px; /* Adjust the width as needed */
+  height: 50px; /* Adjust the height as needed */
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease; /* Add a smooth transition effect on hover */
+  cursor: pointer;
+  margin-bottom: 20px;
+
+
+  &:hover {
+    border: 1px solid ${p => p.theme.primary};
+    
+  }
+
+  .field-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  a {
+    text-decoration: none;
+    color: ${p => p.theme.primary};
+  }
 `;

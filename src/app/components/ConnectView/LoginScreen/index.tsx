@@ -116,11 +116,13 @@ const OrDivider = styled.div`
 
 const Title = styled.h3`
   text-align: center;
+  color:#5c636a;
 `;
 
 const SubTitle = styled.p`
   text-align: center;
   font-size: 1.1em;
+  color:#5c636a;
 `;
 
 const LabelHeadng = styled.div`

@@ -50,8 +50,8 @@ export function HomeView() {
             Claim your <Highlight>+bullrun</Highlight> on Bitcoin
           </Title>
           <Lead>
-            The Realm Name System (RNS) is the world's first permissionless name system to replace
-            domains, built on Bitcoin{' '}
+          Bullrun leads a digital identity revolution, shaping a unified versatile profile for global use cases,
+          built on Bitcoin{' '}
             <A href="https:/atomicals.xyz" target="_blank" rel="noopener noreferrer">
               Atomicals Protocol.
             </A>

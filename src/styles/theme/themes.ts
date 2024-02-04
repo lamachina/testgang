@@ -1,8 +1,8 @@
 const lightTheme = {
-  primary: 'rgb(254, 209, 4, 1)',
+  primary: 'rgb(96, 125, 139, 1)',
   text: 'rgba(58,52,51,1)',
   textSecondary: 'rgba(58,52,51,0.7)',
-  background: 'rgba(255,255,255,1)',
+  background: 'rgba(245,245,245,1)',
   backgroundVariant: 'rgba(251,249,249,1)',
   border: 'rgba(58,52,51,0.12)',
   borderLight: 'rgba(58,52,51,0.05)',

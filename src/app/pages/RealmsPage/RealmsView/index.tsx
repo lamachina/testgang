@@ -41,13 +41,13 @@ export function RealmsView() {
 
   return (
     <Wrapper className="mt-5">
-      <Header className="mb-5">My gangs</Header>
+      <Header className="mb-5">My +bullrun</Header>
       {realms?.length !== 0 ?
         realmsFiltered().map((item: any) => (
           <RealmItem key={item.atomical_id} realmInfo={item} />
         )) : 
         <AllCentered>
-        <Lead>No gangs found. Searching...</Lead>
+        <Lead>Nothing found. Searching...</Lead>
         </AllCentered>
         }
 
@@ -70,6 +70,6 @@ export function RealmsView() {
 const Wrapper = styled.div``;
 
 const Header = styled.h2`
-color: ${p => p.theme.primary}
+color: ${p => p.theme.text} ;
   font-size: 28px;
 `;
